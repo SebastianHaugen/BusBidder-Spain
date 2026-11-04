@@ -1,0 +1,1 @@
+# Any records that is rejected will be placed in this folder
