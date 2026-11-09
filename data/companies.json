@@ -1,0 +1,27 @@
+[
+  {
+    "name": "SolRuta",
+    "profile_desc": "Low-cost daytime services",
+    "rating": 3.7
+  },
+  {
+    "name": "Camino Express",
+    "profile_desc": "Fast direct connections between major cities",
+    "rating": 4.4
+  },
+  {
+    "name": "CostaLink",
+    "profile_desc": "Strong coverage of coastal destinations",
+    "rating": 3.9
+  },
+  {
+    "name": "VerdeBus",
+    "profile_desc": "Environment-focused services and modern vehicles",
+    "rating": 4.6
+  },
+  {
+    "name": "NocheVia",
+    "profile_desc": "Overnight and late-evening services",
+    "rating": 3.4
+  }
+]
