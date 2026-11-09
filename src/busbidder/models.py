@@ -15,11 +15,16 @@ class Company:
 
 # This class represents an offer made by a company for a bus trip
 class Offer:
-    def __init__(self, company, price, departure, arrival):
+    def __init__(self, offer_id, company, price, departure, arrival, destination, transfers, seats_available, fare_conditions):
+        self.offer_id = offer_id
         self.company = company
         self.price = price
         self.departure = departure
         self.arrival = arrival
+        self.destination = destination
+        self.transfers = transfers
+        self.seats_available = seats_available
+        self.fare_conditions = fare_conditions       
 
     # This method is used to calculate the duration of the offer in minutes
     @property
@@ -29,3 +34,9 @@ class Offer:
     # This method is used to represent the offer object as a string
     def __repr__(self):
         return (f"Offer({self.company.name}, €{self.price}, ")
+    
+class FareConditions:
+    def __init__(self, changeable, refundable, baggage_limit):
+        self.changeable = changeable
+        self.refundable = refundable
+        self.baggage_limit = baggage_limit
