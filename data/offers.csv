@@ -1,0 +1,19 @@
+offer_id,company,destination,departure,arrival,price,transfers,seats_available,changeable,refundable,baggage_limit
+1,SolRuta,Malaga,2026-07-12T07:30,2026-07-12T13:45,29.90,0,18,false,false,20
+2,SolRuta,Malaga,2026-07-13T09:15,2026-07-13T15:30,32.50,0,12,true,false,20
+3,SolRuta,Malaga,2026-07-14T14:00,2026-07-14T20:30,27.00,1,25,false,false,15
+4,Camino Express,Malaga,2026-07-12T08:00,2026-07-12T13:00,48.00,0,10,true,true,25
+5,Camino Express,Malaga,2026-07-13T10:30,2026-07-13T15:30,55.00,0,8,true,true,25
+6,Camino Express,Malaga,2026-07-14T07:00,2026-07-14T12:00,46.50,0,0,true,false,25
+7,CostaLink,Malaga,2026-07-12T09:45,2026-07-12T17:15,36.00,1,20,true,false,23
+8,CostaLink,Malaga,2026-07-13T06:30,2026-07-13T15:00,31.00,2,22,true,false,23
+9,CostaLink,Malaga,2026-07-14T11:00,2026-07-14T18:00,39.90,1,15,true,true,23
+10,VerdeBus,Malaga,2026-07-12T10:00,2026-07-12T16:00,44.00,0,14,true,true,30
+11,VerdeBus,Malaga,2026-07-14T08:30,2026-07-14T14:45,52.00,0,9,true,true,30
+12,NocheVia,Malaga,2026-07-12T23:30,2026-07-13T07:15,24.00,0,30,true,false,20
+13,NocheVia,Malaga,2026-07-13T22:00,2026-07-14T06:30,21.50,1,26,false,false,20
+14,NocheVia,Malaga,2026-07-15T23:00,2026-07-16T06:45,22.00,0,28,true,false,20
+15,SolRuta,Malaga,2026-07-13T08:00,2026-07-13T14:00,-10.00,0,20,true,false,20
+16,VerdeBus,Malaga,2026-07-13T12:00,2026-07-13T09:00,41.00,0,10,true,true,30
+17,FastBus,Malaga,2026-07-12T09:00,2026-07-12T15:00,35.00,0,15,true,false,20
+3,CostaLink,Malaga,2026-07-13T10:00,2026-07-13T17:00,38.00,1,12,true,false,23
