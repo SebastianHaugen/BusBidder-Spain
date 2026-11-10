@@ -37,7 +37,8 @@ class Offer:
     
     def __repr__(self):
         """Return a short readable representation of the offer."""
-        return (f"Offer({self.company.name}, €{self.price}, ")
+        return (f"Offer({self.offer_id}, {self.company.name}, €{self.price}, "
+                f"{self.departure:%Y-%m-%d %H:%M})")
     
 class FareConditions:
     """Ticket terms for an offer: changeability, refundability and baggage allowance."""
@@ -45,3 +46,29 @@ class FareConditions:
         self.changeable = changeable
         self.refundable = refundable
         self.baggage_limit = baggage_limit
+        
+class TravelRequest:
+    """Hard constraints for a trip from Madrid, used to filter offers."""
+    def __init__(self, destination, earliest_date, latest_date, max_price, max_transfers, requires_changeable, seats_needed=1):
+        self.destination = destination
+        self.earliest_date = earliest_date
+        self.latest_date = latest_date
+        self.max_price = max_price
+        self.max_transfers = max_transfers
+        self.requires_changeable = requires_changeable
+        self.seats_needed = seats_needed
+        
+        if latest_date < earliest_date:
+            raise ValueError("latest_date cannot be earlier than earliest_date")
+        
+        if max_price <= 0:
+            raise ValueError("max_price must be positive")
+        
+        if max_transfers < 0:
+            raise ValueError("max_transfers cannot be negative")
+        
+        if seats_needed <= 0:
+            raise ValueError("seats_needed must be positive")
+        
+        if not isinstance(requires_changeable, bool):
+            raise TypeError("requires_changeable must be a boolean")
