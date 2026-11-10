@@ -1,20 +1,24 @@
-from datetime import datetime
+"""
+Data models for BusBidder Spain.
 
+Defines three classes: Company (a bus operator), Offer (a single bookable
+bus trip offered by a company) and FareConditions (the ticket terms
+attached to an offer).
 """
-This file creates 2 models, 1 for the company and 1 for the offer
-"""
+
 class Company:
+    """A bus company operating on the marketplace."""
     def __init__(self, name, profile_desc, rating):
         self.name = name
         self.profile_desc = profile_desc
         self.rating = rating
 
-    # This method is used to represent the company object as a string
     def __repr__(self):
+        """Return a short readable representation of the company."""
         return f"Company({self.name!r}, rating={self.rating})"
 
-# This class represents an offer made by a company for a bus trip
 class Offer:
+    """A bus trip offered by a company to a destination at a given time and price."""
     def __init__(self, offer_id, company, price, departure, arrival, destination, transfers, seats_available, fare_conditions):
         self.offer_id = offer_id
         self.company = company
@@ -26,16 +30,17 @@ class Offer:
         self.seats_available = seats_available
         self.fare_conditions = fare_conditions       
 
-    # This method is used to calculate the duration of the offer in minutes
     @property
     def duration_minutes(self):
+        """Journey duration in minutes, computed from departure and arrival."""
         return int((self.arrival - self.departure).total_seconds() // 60)
     
-    # This method is used to represent the offer object as a string
     def __repr__(self):
+        """Return a short readable representation of the offer."""
         return (f"Offer({self.company.name}, €{self.price}, ")
     
 class FareConditions:
+    """Ticket terms for an offer: changeability, refundability and baggage allowance."""
     def __init__(self, changeable, refundable, baggage_limit):
         self.changeable = changeable
         self.refundable = refundable
