@@ -7,6 +7,8 @@ and logged with the reason they failed.
 """
 
 import json
+import csv
+from datetime import datetime  
 from pathlib import Path
 
 from busbidder.models import Company, Offer, FareConditions
@@ -57,3 +59,66 @@ def load_companies(path: Path = COMPANY_DATA_FILE) -> dict[str, Company]:
             print(f"Rejected company record ({e}): {record}")
 
     return companies
+
+def load_offers(companies: dict[str, Company], path: Path = OFFER_DATA_FILE) -> list[Offer]:
+    """
+    Load offer data from a CSV file.
+    """
+    
+    with open(path, "r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        
+        offers: list[Offer] = []
+        seen_ids: set[int] = set()
+                
+        for record in reader:
+            try:
+                offer_id = int(record["offer_id"])
+                company_name = record["company"]
+                price = float(record["price"])
+                departure = datetime.fromisoformat(record["departure"])
+                arrival = datetime.fromisoformat(record["arrival"])
+                destination = record["destination"]
+                transfers = int(record["transfers"])
+                seats_available = int(record["seats_available"])
+                
+                fare_conditions = FareConditions(
+                    changeable=record["changeable"].lower() == "true",
+                    refundable=record["refundable"].lower() == "true",
+                    baggage_limit=int(record["baggage_limit"])
+                )
+                
+                if company_name not in companies:
+                    raise ValueError(f"company {company_name!r} not found")
+                
+                if price <= 0:
+                    raise ValueError(f"price {price} must be positive")
+                
+                if arrival <= departure:
+                    raise ValueError(f"arrival {arrival} must be after departure {departure}")
+                
+                if seats_available < 0:
+                    raise ValueError(f"seats_available {seats_available} cannot be negative")
+                
+                if transfers < 0:
+                    raise ValueError(f"transfers {transfers} cannot be negative")
+                
+                if offer_id in seen_ids:
+                    raise ValueError(f"duplicate offer_id {offer_id}")
+                                
+                company = companies[company_name]
+                
+                offer = Offer(
+                    offer_id, company, price, departure, arrival,
+                    destination, transfers, seats_available, fare_conditions
+                )
+                
+                seen_ids.add(offer_id)
+                offers.append(offer)
+            
+            except KeyError as e:
+                print(f"Rejected offer record, missing field {e}: {record}")
+            except (ValueError, TypeError) as e:
+                print(f"Rejected offer record ({e}): {record}")
+        
+        return offers
