@@ -6,6 +6,8 @@ bus trip offered by a company) and FareConditions (the ticket terms
 attached to an offer).
 """
 
+import math
+
 class Company:
     """A bus company operating on the marketplace."""
     def __init__(self, name, profile_desc, rating):
@@ -72,3 +74,28 @@ class TravelRequest:
         
         if not isinstance(requires_changeable, bool):
             raise TypeError("requires_changeable must be a boolean")
+        
+class TravellerProfile:
+    """Soft preferences and criterion weights used to rank offers.
+
+    Separate from TravelRequest, which holds the hard constraints.
+    """
+    def __init__(self, name, preferred_departure, weights):
+        if not weights:
+            raise ValueError("weights cannot be empty")
+
+        if any(w < 0 for w in weights.values()):
+            raise ValueError("weights cannot be negative")
+
+        if not math.isclose(sum(weights.values()), 1.0):
+            raise ValueError(
+                f"weights must sum to 1.0, got {sum(weights.values())}"
+            )
+
+        self.name = name
+        self.preferred_departure = preferred_departure
+        self.weights = weights
+
+    def __repr__(self):
+        return f"TravellerProfile({self.name!r}, {self.weights})"
+        
