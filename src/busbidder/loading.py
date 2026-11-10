@@ -8,17 +8,17 @@ and logged with the reason they failed.
 
 import json
 import csv
-from datetime import datetime  
+from datetime import datetime, time 
 from pathlib import Path
 
-from busbidder.models import Company, Offer, FareConditions
+from busbidder.models import Company, Offer, FareConditions, TravellerProfile
 
 COMPANY_DATA_FILE = Path("data/companies.json")
 OFFER_DATA_FILE = Path("data/offers.csv")
+PROFILE_DATA_FILE = Path("config/profiles.json")
 
 RATING_MIN = 0.0
 RATING_MAX = 5.0
-
 
 def load_companies(path: Path = COMPANY_DATA_FILE) -> dict[str, Company]:
     """
@@ -122,3 +122,36 @@ def load_offers(companies: dict[str, Company], path: Path = OFFER_DATA_FILE) -> 
                 print(f"Rejected offer record ({e}): {record}")
         
         return offers
+
+def load_profiles(path: Path = PROFILE_DATA_FILE) -> dict[str, TravellerProfile]:
+    """
+    Load traveller profiles from a JSON file.
+
+    Each record must contain name, preferred_departure ("HH:MM") and weights.
+    Weight validation is done by TravellerProfile itself.
+
+    Returns:
+        A dict mapping profile name to TravellerProfile object.
+    """
+    profiles: dict[str, TravellerProfile] = {}
+
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    for record in data:
+        try:
+            name = record["name"]
+            preferred = time.fromisoformat(record["preferred_departure"])
+            weights = {k: float(v) for k, v in record["weights"].items()}
+
+            if name in profiles:
+                raise ValueError(f"duplicate profile name {name!r}")
+
+            profiles[name] = TravellerProfile(name, preferred, weights)
+
+        except KeyError as e:
+            print(f"Rejected profile record, missing field {e}: {record}")
+        except (ValueError, TypeError, AttributeError) as e:
+            print(f"Rejected profile record ({e}): {record}")
+
+    return profiles

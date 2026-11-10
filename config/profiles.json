@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Budget traveller",
+    "preferred_departure": "09:00",
+    "weights": {
+      "price": 0.6,
+      "duration": 0.15,
+      "departure_time": 0.1,
+      "flexibility": 0.15
+    }
+  },
+  {
+    "name": "Business traveller",
+    "preferred_departure": "07:00",
+    "weights": {
+      "price": 0.1,
+      "duration": 0.45,
+      "departure_time": 0.3,
+      "flexibility": 0.15
+    }
+  },
+  {
+    "name": "Flexibility-focused tourist",
+    "preferred_departure": "11:00",
+    "weights": {
+      "price": 0.2,
+      "duration": 0.15,
+      "departure_time": 0.15,
+      "flexibility": 0.5
+    }
+  },
+  {
+    "name": "Balanced traveller",
+    "preferred_departure": "09:00",
+    "weights": {
+      "price": 0.4,
+      "duration": 0.25,
+      "departure_time": 0.15,
+      "flexibility": 0.2
+    }
+  }
+]
