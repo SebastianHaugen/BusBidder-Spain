@@ -22,9 +22,10 @@ def rank_offers(offers, request, profile):
         profile: TravellerProfile with the preferred departure time and weights.
 
     Returns:
-        List of (offer, score) tuples, highest score first.
+        List of (offer, total, scores) tuples, highest total first, where
+        scores maps each criterion name to its 0-100 score.
         Ties are broken by offer ID.
-
+        
     Raises:
         RuntimeError: If no criteria are registered.
         ValueError: If the profile weights don't match the registered criteria.
@@ -39,9 +40,10 @@ def rank_offers(offers, request, profile):
     scored_offers = []
         
     for offer in offers:
-        score = sum(profile.weights[name] * func(offer, offers, request, profile)
-            for name, func in CRITERIA.items())
-        scored_offers.append((offer, score))
+        scores = {name: func(offer, offers, request, profile)
+            for name, func in CRITERIA.items()}
+        total = sum(profile.weights[name] * scores[name] for name in scores)
+        scored_offers.append((offer, total, scores))
         
 
     return sorted(scored_offers, key=lambda x: (-x[1], x[0].offer_id))
