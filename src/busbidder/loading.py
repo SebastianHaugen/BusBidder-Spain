@@ -12,6 +12,7 @@ from datetime import datetime, time
 from pathlib import Path
 
 from busbidder.models import Company, Offer, FareConditions, TravellerProfile
+from busbidder.exceptions import DataValidationError
 
 COMPANY_DATA_FILE = Path("data/companies.json")
 OFFER_DATA_FILE = Path("data/offers.csv")
@@ -46,11 +47,11 @@ def load_companies(path: Path = COMPANY_DATA_FILE) -> dict[str, Company]:
             rating = float(record["rating"])
 
             if not (RATING_MIN <= rating <= RATING_MAX):
-                raise ValueError(
+                raise DataValidationError(
                     f"rating {rating} outside {RATING_MIN}-{RATING_MAX}"
                 )
             if name in companies:
-                raise ValueError(f"duplicate company name {name!r}")
+                raise DataValidationError(f"duplicate company name {name!r}")
 
             companies[name] = Company(name, profile_desc, rating)
 
@@ -90,25 +91,25 @@ def load_offers(companies: dict[str, Company], destinations: set[str],  path: Pa
                 )
                 
                 if company_name not in companies:
-                    raise ValueError(f"company {company_name!r} not found")
+                    raise DataValidationError(f"company {company_name!r} not found")
                 
                 if price <= 0:
-                    raise ValueError(f"price {price} must be positive")
+                    raise DataValidationError(f"price {price} must be positive")
                 
                 if arrival <= departure:
-                    raise ValueError(f"arrival {arrival} must be after departure {departure}")
+                    raise DataValidationError(f"arrival {arrival} must be after departure {departure}")
                 
                 if seats_available < 0:
-                    raise ValueError(f"seats_available {seats_available} cannot be negative")
+                    raise DataValidationError(f"seats_available {seats_available} cannot be negative")
                 
                 if transfers < 0:
-                    raise ValueError(f"transfers {transfers} cannot be negative")
+                    raise DataValidationError(f"transfers {transfers} cannot be negative")
                 
                 if offer_id in seen_ids:
-                    raise ValueError(f"duplicate offer_id {offer_id}")
+                    raise DataValidationError(f"duplicate offer_id {offer_id}")
                 
                 if destination not in destinations:
-                    raise ValueError(f"unknown destination {destination!r}")
+                    raise DataValidationError(f"unknown destination {destination!r}")
                                                 
                 company = companies[company_name]
                 
@@ -149,7 +150,7 @@ def load_profiles(path: Path = PROFILE_DATA_FILE) -> dict[str, TravellerProfile]
             weights = {k: float(v) for k, v in record["weights"].items()}
 
             if name in profiles:
-                raise ValueError(f"duplicate profile name {name!r}")
+                raise DataValidationError(f"duplicate profile name {name!r}")
 
             profiles[name] = TravellerProfile(name, preferred, weights)
 
@@ -180,10 +181,10 @@ def load_destinations(path: Path = DESTINATION_DATA_FILE) -> set[str]:
             name = destination["city"].strip()
                 
             if not name:
-                raise ValueError("empty destination name")
+                raise DataValidationError("empty destination name")
 
             if name in destinations:
-                raise ValueError(f"duplicate destination name {name!r}")
+                raise DataValidationError(f"duplicate destination name {name!r}")
 
             destinations.add(name)
                 
