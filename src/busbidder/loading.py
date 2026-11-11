@@ -16,6 +16,7 @@ from busbidder.models import Company, Offer, FareConditions, TravellerProfile
 COMPANY_DATA_FILE = Path("data/companies.json")
 OFFER_DATA_FILE = Path("data/offers.csv")
 PROFILE_DATA_FILE = Path("config/profiles.json")
+DESTINATION_DATA_FILE = Path("data/destinations.json")
 
 RATING_MIN = 0.0
 RATING_MAX = 5.0
@@ -60,7 +61,7 @@ def load_companies(path: Path = COMPANY_DATA_FILE) -> dict[str, Company]:
 
     return companies
 
-def load_offers(companies: dict[str, Company], path: Path = OFFER_DATA_FILE) -> list[Offer]:
+def load_offers(companies: dict[str, Company], destinations: set[str],  path: Path = OFFER_DATA_FILE) -> list[Offer]:
     """
     Load offer data from a CSV file.
     """
@@ -105,7 +106,10 @@ def load_offers(companies: dict[str, Company], path: Path = OFFER_DATA_FILE) -> 
                 
                 if offer_id in seen_ids:
                     raise ValueError(f"duplicate offer_id {offer_id}")
-                                
+                
+                if destination not in destinations:
+                    raise ValueError(f"unknown destination {destination!r}")
+                                                
                 company = companies[company_name]
                 
                 offer = Offer(
@@ -155,3 +159,37 @@ def load_profiles(path: Path = PROFILE_DATA_FILE) -> dict[str, TravellerProfile]
             print(f"Rejected profile record ({e}): {record}")
 
     return profiles
+
+def load_destinations(path: Path = DESTINATION_DATA_FILE) -> set[str]:
+    """
+    Load destination names from a JSON file.
+
+    Each record must contain a city name. Records with a missing or empty
+    name, or a duplicate name, are rejected.
+
+    Returns:
+        A set of valid destination names.
+    """
+    destinations: set[str] = set()
+    
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        
+    for destination in data:
+        try:
+            name = destination["city"].strip()
+                
+            if not name:
+                raise ValueError("empty destination name")
+
+            if name in destinations:
+                raise ValueError(f"duplicate destination name {name!r}")
+
+            destinations.add(name)
+                
+        except KeyError as e:
+            print(f"Rejected destination record, missing field {e}: {destination}")
+        except (ValueError, TypeError) as e:
+            print(f"Rejected destination record ({e}): {destination}")
+        
+    return destinations

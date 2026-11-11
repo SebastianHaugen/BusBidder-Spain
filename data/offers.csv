@@ -17,3 +17,4 @@ offer_id,company,destination,departure,arrival,price,transfers,seats_available,c
 16,VerdeBus,Malaga,2026-07-13T12:00,2026-07-13T09:00,41.00,0,10,true,true,30
 17,FastBus,Malaga,2026-07-12T09:00,2026-07-12T15:00,35.00,0,15,true,false,20
 3,CostaLink,Malaga,2026-07-13T10:00,2026-07-13T17:00,38.00,1,12,true,false,23
+18,SolRuta,Paris,2026-07-12T09:00,2026-07-12T15:00,30.00,0,10,true,false,20
