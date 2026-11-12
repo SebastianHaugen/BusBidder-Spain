@@ -6,6 +6,7 @@ bus trip offered by a company) and FareConditions (the ticket terms
 attached to an offer).
 """
 
+from datetime import datetime
 import math
 
 class Company:
@@ -98,4 +99,31 @@ class TravellerProfile:
 
     def __repr__(self):
         return f"TravellerProfile({self.name!r}, {self.weights})"
+
+class Booking:
+    """ A class for a booking made by a traveller for an offer. """
+    def __init__(self, reference, offer_id, seats, fare_conditions, booked_at, payment_status="SIMULATED_PAID"):
+        self.reference = reference
+        self.offer_id = offer_id
+        self.seats = seats
+        self.fare_conditions = fare_conditions
+        self.booked_at = booked_at
+        self.payment_status = payment_status
+    
+        if seats <= 0:
+            raise ValueError("seats must be positive")
         
+        if not isinstance(payment_status, str):
+            raise TypeError("payment_status must be a string")
+                
+        if not isinstance(fare_conditions, FareConditions):
+            raise TypeError("fare_conditions must be a FareConditions instance")
+        
+        if not isinstance(reference, str):
+            raise TypeError("reference must be a string")
+        
+        if not isinstance(booked_at, datetime):
+            raise TypeError("booked_at must be a datetime")
+    
+    def __repr__(self):
+        return f"Booking({self.reference}, offer {self.offer_id}, {self.seats} seat(s))"
