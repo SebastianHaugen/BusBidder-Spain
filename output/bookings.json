@@ -1,0 +1,28 @@
+{
+  "bookings": [
+    {
+      "reference": "4-3-6PSXQ",
+      "offer_id": 4,
+      "seats": 3,
+      "booked_at": "2026-11-14T11:15:45.041749",
+      "payment_status": "SIMULATED_PAID",
+      "fare_conditions": {
+        "changeable": true,
+        "refundable": true,
+        "baggage_limit": 25
+      }
+    },
+    {
+      "reference": "4-3-ETNTK",
+      "offer_id": 4,
+      "seats": 3,
+      "booked_at": "2026-11-14T11:15:53.097129",
+      "payment_status": "SIMULATED_PAID",
+      "fare_conditions": {
+        "changeable": true,
+        "refundable": true,
+        "baggage_limit": 25
+      }
+    }
+  ]
+}
