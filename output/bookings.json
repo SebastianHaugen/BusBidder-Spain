@@ -23,6 +23,18 @@
         "refundable": true,
         "baggage_limit": 25
       }
+    },
+    {
+      "reference": "4-3-AVL9V",
+      "offer_id": 4,
+      "seats": 3,
+      "booked_at": "2026-11-14T13:47:32.489166",
+      "payment_status": "SIMULATED_PAID",
+      "fare_conditions": {
+        "changeable": true,
+        "refundable": true,
+        "baggage_limit": 25
+      }
     }
   ]
 }
