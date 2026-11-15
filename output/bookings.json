@@ -95,6 +95,18 @@
         "refundable": false,
         "baggage_limit": 20
       }
+    },
+    {
+      "reference": "12-3-QZQ1L",
+      "offer_id": 12,
+      "seats": 3,
+      "booked_at": "2026-11-15T22:59:17.757423",
+      "payment_status": "SIMULATED_PAID",
+      "fare_conditions": {
+        "changeable": true,
+        "refundable": false,
+        "baggage_limit": 20
+      }
     }
   ]
 }

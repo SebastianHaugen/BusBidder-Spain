@@ -6,10 +6,15 @@ Each rejected offer is returned with the reason it failed, so the user can see w
 """
 
 from busbidder.models import Offer, TravelRequest
+from busbidder.booking import Booking, seats_left
 
-def check_offer(offer: Offer, request: TravelRequest) -> list[str]:
+def check_offer(offer: Offer, request: TravelRequest, bookings: list[Booking]) -> list[str]:
     """ reutrn a list of reasons the offer fails the request. Empty means it passes"""
     reasons = []
+    available = seats_left(offer, bookings)
+    
+    if available < request.seats_needed:
+        reasons.append(f"Offer has {available} seats available, but requested {request.seats_needed}")
     
     if offer.destination != request.destination:
         reasons.append(f"Destination {offer.destination} does not match requested {request.destination}")
@@ -29,18 +34,15 @@ def check_offer(offer: Offer, request: TravelRequest) -> list[str]:
     if request.requires_changeable and not offer.fare_conditions.changeable:
         reasons.append("Offer is not changeable, but requested changeable")
     
-    if offer.seats_available < request.seats_needed:
-        reasons.append(f"Offer has {offer.seats_available} seats available, but requested {request.seats_needed}")
-    
     return reasons
 
-def filter_offers(offers: list[Offer], request: TravelRequest):
+def filter_offers(offers: list[Offer], request: TravelRequest, bookings):
     """ splits offers into accepeted and rejected with the reasons"""
     accepted = []
     rejected = []
     
     for offer in offers:
-        reasons =check_offer(offer, request)
+        reasons =check_offer(offer, request, bookings)
         if reasons:
             rejected.append((offer, reasons))
         else:

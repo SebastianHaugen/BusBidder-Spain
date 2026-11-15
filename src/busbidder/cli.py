@@ -187,7 +187,8 @@ def main() -> None:
     
     # Load offers and filter them based on the travel request 
     offers = load_offers(load_companies(), set(destinations))
-    accepted, rejected = filter_offers(offers, travel_request)
+    bookings = load_bookings()
+    accepted, rejected = filter_offers(offers, travel_request, bookings)
     show_rejected(rejected)
 
     if not accepted:
@@ -207,7 +208,6 @@ def main() -> None:
     print(f"which offer would you like to book? (1-{len(ranked)}) or 0 to exit")
     book_offer_choice = choose_offer(ranked)
     if book_offer_choice:
-        bookings = load_bookings()
         booked = book_offer(book_offer_choice, seats, bookings)
         save_bookings(bookings)
         show_confirmation(booked, book_offer_choice)
