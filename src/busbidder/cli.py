@@ -9,6 +9,7 @@ from busbidder.models import TravelRequest
 from busbidder.booking import book_offer, seats_left, load_bookings, save_bookings
 from busbidder.filtering import filter_offers
 from busbidder.scoring.ranker import rank_offers
+from busbidder.scoring.explain import explain_offer
 
 def ask_int(prompt, min_value, max_value):
     while True:
@@ -113,6 +114,38 @@ def show_rejected(rejected):
             f"{'; '.join(reasons)}"
         )
 
+def show_confirmation(booking, offer):
+    """Print a clear confirmation for a completed booking."""
+    fare = booking.fare_conditions
+    fare_text = ", ".join([
+        "changeable" if fare.changeable else "not changeable",
+        "refundable" if fare.refundable else "non-refundable",
+        f"{fare.baggage_limit} kg baggage",
+    ])
+    total_price = offer.price * booking.seats
+
+    print("\nBooking confirmed")
+    print("-" * 40)
+    print(f"{'Reference:':<14}{booking.reference}")
+    print(f"{'Company:':<14}{offer.company.name}")
+    print(f"{'Route:':<14}Madrid -> {offer.destination}")
+    print(f"{'Departure:':<14}{offer.departure:%Y-%m-%d %H:%M}")
+    print(f"{'Arrival:':<14}{offer.arrival:%Y-%m-%d %H:%M}")
+    print(f"{'Seats:':<14}{booking.seats}")
+    print(f"{'Total price:':<14}€{total_price:.2f}")
+    print(f"{'Fare:':<14}{fare_text}")
+    print(f"{'Payment:':<14}{booking.payment_status} (simulated, no real payment taken)")
+    print("-" * 40)
+
+def choose_offer(ranked):
+    """Ask the user to choose an offer from the ranked list."""
+    while True:
+        choice = ask_int(f"Choose an offer to book (1-{len(ranked)}), or 0 to exit: ", 0, len(ranked))
+        if choice == 0:
+            return None
+        else:
+            return ranked[choice - 1][0]  # Return the Offer object
+
 def main() -> None:
     """ Run the interactive BusBidder program """
     destinations = sorted(load_destinations())
@@ -122,6 +155,7 @@ def main() -> None:
     print(f"You have chosen: {destination}")
     earliest_date = ask_date("Enter the earliest departure date (YYYY-MM-DD): ")
     
+    # Ensure that the latest date is not earlier than the earliest date
     while True:
         latest_date = ask_date("Enter the latest departure date (YYYY-MM-DD): ")
         if latest_date >= earliest_date:
@@ -160,8 +194,21 @@ def main() -> None:
         print("No offers match your requirements.")
         return
 
+    # Rank the accepted offers based on the travel profile and show the ranking
     ranked = rank_offers(accepted, travel_request, travel_profile)
     show_ranking(ranked)
     
+    # Explain the top-ranked offer to the user
+    top_offer, top_total, top_scores = ranked[0]
+    print()
+    print(explain_offer(top_offer, top_total, top_scores, travel_profile)) #Explain the top-ranked offer
     
-    
+    # Ask the user to choose an offer to book
+    print(f"which offer would you like to book? (1-{len(ranked)}) or 0 to exit")
+    book_offer_choice = choose_offer(ranked)
+    if book_offer_choice:
+        bookings = load_bookings()
+        booked = book_offer(book_offer_choice, seats, bookings)
+        save_bookings(bookings)
+        show_confirmation(booked, book_offer_choice)
+        print(f"Successfully booked offer {booked.offer_id} for {booked.seats} seats.")

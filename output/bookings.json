@@ -35,6 +35,66 @@
         "refundable": true,
         "baggage_limit": 25
       }
+    },
+    {
+      "reference": "2-2-C5K66",
+      "offer_id": 2,
+      "seats": 2,
+      "booked_at": "2026-11-15T10:44:27.862263",
+      "payment_status": "SIMULATED_PAID",
+      "fare_conditions": {
+        "changeable": true,
+        "refundable": false,
+        "baggage_limit": 20
+      }
+    },
+    {
+      "reference": "2-2-TOZSV",
+      "offer_id": 2,
+      "seats": 2,
+      "booked_at": "2026-11-15T10:52:55.266252",
+      "payment_status": "SIMULATED_PAID",
+      "fare_conditions": {
+        "changeable": true,
+        "refundable": false,
+        "baggage_limit": 20
+      }
+    },
+    {
+      "reference": "2-2-AHP24",
+      "offer_id": 2,
+      "seats": 2,
+      "booked_at": "2026-11-15T10:54:51.512786",
+      "payment_status": "SIMULATED_PAID",
+      "fare_conditions": {
+        "changeable": true,
+        "refundable": false,
+        "baggage_limit": 20
+      }
+    },
+    {
+      "reference": "12-5-KEVMJ",
+      "offer_id": 12,
+      "seats": 5,
+      "booked_at": "2026-11-15T10:57:35.417659",
+      "payment_status": "SIMULATED_PAID",
+      "fare_conditions": {
+        "changeable": true,
+        "refundable": false,
+        "baggage_limit": 20
+      }
+    },
+    {
+      "reference": "12-2-9220S",
+      "offer_id": 12,
+      "seats": 2,
+      "booked_at": "2026-11-15T10:59:52.742870",
+      "payment_status": "SIMULATED_PAID",
+      "fare_conditions": {
+        "changeable": true,
+        "refundable": false,
+        "baggage_limit": 20
+      }
     }
   ]
 }
