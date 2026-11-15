@@ -2,3 +2,4 @@ __pycache__/
 try_*.py
 output/bookings.json
 *.egg-info/
+output/logs

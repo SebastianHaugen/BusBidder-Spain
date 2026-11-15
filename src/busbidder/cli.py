@@ -12,6 +12,7 @@ from busbidder.filtering import filter_offers
 from busbidder.scoring.ranker import rank_offers
 from busbidder.scoring.explain import explain_offer
 from busbidder.exceptions import BookingError, BusBidderError
+from busbidder.logging_setup import setup_logging
 
 def ask_int(prompt, min_value, max_value):
     while True:
@@ -172,6 +173,7 @@ def graceful_exit(func):
 @graceful_exit
 def main() -> None:
     """ Run the interactive BusBidder program """   
+    setup_logging()
     destinations = sorted(load_destinations())
     
     print("Welcome to BusBidder Spain!")

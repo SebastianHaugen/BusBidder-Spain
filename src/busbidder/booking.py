@@ -6,6 +6,7 @@ import json
 import random
 import re
 import string
+import logging
 from datetime import datetime
 from pathlib import Path
 
@@ -14,6 +15,8 @@ from busbidder.exceptions import BookingError, DataValidationError
 
 REFERENCE_PATTERN = re.compile(r"^\d+-\d+-[A-Z0-9]{5}$")
 BOOKINGS_FILE = Path("output/bookings.json")
+
+logger = logging.getLogger(__name__)
 
 def generate_reference(offer_id: int, seats: int, existing: set[str]) -> str:
     """Generate a unique booking reference based on the offer ID and number of seats."""
@@ -39,10 +42,15 @@ def seats_left(offer: Offer, bookings: list[Booking]) -> int:
 def book_offer(offer: Offer, seats: int, bookings: list[Booking]) -> Booking:
     """Book seats on an offer, add the booking to the list and return it."""
     if seats <= 0:
+        logger.error(f"Attempted to book a non-positive number of seats: {seats}")
         raise BookingError(f"seats must be positive, got {seats}")        
     
     available = seats_left(offer, bookings)
     if available < seats:
+        logger.error(
+            f"Attempted to book {seats} seat(s) on offer {offer.offer_id}, "
+            f"but only {available} seat(s) are available."
+        )
         raise BookingError(
             f"only {available} seat(s) left on offer {offer.offer_id}, "
             f"requested {seats}"
@@ -61,6 +69,7 @@ def book_offer(offer: Offer, seats: int, bookings: list[Booking]) -> Booking:
     )
 
     bookings.append(new_booking)
+    logger.info(f"Booked {seats} seat(s) on offer {offer.offer_id}, reference {reference}.")
     return new_booking
     
 def save_bookings(bookings: list[Booking], path: Path = BOOKINGS_FILE) -> None:
@@ -86,6 +95,7 @@ def save_bookings(bookings: list[Booking], path: Path = BOOKINGS_FILE) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     
     with open(path, 'w', encoding="utf-8") as f:
+        logger.info(f"Saving {len(bookings)} booking(s) to {path}.")
         json.dump(bookings_data, f, indent=2)
 
 def load_bookings(path: Path = BOOKINGS_FILE) -> list[Booking]:
@@ -93,14 +103,19 @@ def load_bookings(path: Path = BOOKINGS_FILE) -> list[Booking]:
     Load bookings from a JSON file.
 
     A missing file means no bookings have been made yet, so an empty list
-    is returned. Invalid records are rejected individually.
+    is returned. An empty or corrupt file raises DataValidationError.
+    Invalid records are rejected individually and logged.
     """
     if not path.exists():
         return []
 
     with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
+        try:
+            data = json.load(f)
+        except json.JSONDecodeError as e:
+            logger.error(f"Error decoding JSON from {path}: {e}")
+            raise DataValidationError(f"Invalid JSON in {path}: {e}") from e
+        
     bookings: list[Booking] = []
     seen: set[str] = set()
 
@@ -129,8 +144,9 @@ def load_bookings(path: Path = BOOKINGS_FILE) -> list[Booking]:
             bookings.append(booking)
 
         except KeyError as e:
-            print(f"Rejected booking record, missing field {e}: {record}")
+            logger.error(f"Rejected booking record, missing field {e}: {record}")
         except (ValueError, TypeError) as e:
-            print(f"Rejected booking record ({e}): {record}")
+            logger.error(f"Rejected booking record ({e}): {record}")
 
+    logger.info(f"Loaded {len(bookings)} bookings from {path}.")
     return bookings

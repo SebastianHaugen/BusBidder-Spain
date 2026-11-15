@@ -8,6 +8,7 @@ and logged with the reason they failed.
 
 import json
 import csv
+import logging
 from datetime import datetime, time 
 from pathlib import Path
 
@@ -21,6 +22,8 @@ DESTINATION_DATA_FILE = Path("data/destinations.json")
 
 RATING_MIN = 0.0
 RATING_MAX = 5.0
+
+logger = logging.getLogger(__name__)
 
 def load_companies(path: Path = COMPANY_DATA_FILE) -> dict[str, Company]:
     """
@@ -36,9 +39,12 @@ def load_companies(path: Path = COMPANY_DATA_FILE) -> dict[str, Company]:
         A dict mapping company name to Company object.
     """
     companies: dict[str, Company] = {}
-
-    with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except json.JSONDecodeError as e:
+        logger.error(f"Error decoding JSON from {path}: {e}")
+        raise DataValidationError(f"Invalid JSON in {path}: {e}") from e
 
     for record in data:
         try:
@@ -56,17 +62,17 @@ def load_companies(path: Path = COMPANY_DATA_FILE) -> dict[str, Company]:
             companies[name] = Company(name, profile_desc, rating)
 
         except KeyError as e:
-            print(f"Rejected company record, missing field {e}: {record}")
+            logger.error(f"Rejected company record, missing field {e}: {record}")
         except (ValueError, TypeError) as e:
-            print(f"Rejected company record ({e}): {record}")
+            logger.error(f"Rejected company record ({e}): {record}")
 
+    logger.info(f"Loaded {len(companies)} companies from {path}.")
     return companies
 
 def load_offers(companies: dict[str, Company], destinations: set[str],  path: Path = OFFER_DATA_FILE) -> list[Offer]:
     """
     Load offer data from a CSV file.
     """
-    
     with open(path, "r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
         
@@ -122,10 +128,11 @@ def load_offers(companies: dict[str, Company], destinations: set[str],  path: Pa
                 offers.append(offer)
             
             except KeyError as e:
-                print(f"Rejected offer record, missing field {e}: {record}")
+                logger.error(f"Rejected offer record, missing field {e}: {record}")
             except (ValueError, TypeError) as e:
-                print(f"Rejected offer record ({e}): {record}")
+                logger.error(f"Rejected offer record ({e}): {record}")
         
+        logger.info(f"Loaded {len(offers)} offers from {path}.")
         return offers
 
 def load_profiles(path: Path = PROFILE_DATA_FILE) -> dict[str, TravellerProfile]:
@@ -139,9 +146,13 @@ def load_profiles(path: Path = PROFILE_DATA_FILE) -> dict[str, TravellerProfile]
         A dict mapping profile name to TravellerProfile object.
     """
     profiles: dict[str, TravellerProfile] = {}
-
-    with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except json.JSONDecodeError as e:
+        logger.error(f"Error decoding JSON from {path}: {e}")
+        raise DataValidationError(f"Invalid JSON in {path}: {e}") from e
 
     for record in data:
         try:
@@ -155,10 +166,11 @@ def load_profiles(path: Path = PROFILE_DATA_FILE) -> dict[str, TravellerProfile]
             profiles[name] = TravellerProfile(name, preferred, weights)
 
         except KeyError as e:
-            print(f"Rejected profile record, missing field {e}: {record}")
+            logger.error(f"Rejected profile record, missing field {e}: {record}")
         except (ValueError, TypeError, AttributeError) as e:
-            print(f"Rejected profile record ({e}): {record}")
+            logger.error(f"Rejected profile record ({e}): {record}")
 
+    logger.info(f"Loaded {len(profiles)} traveller profiles from {path}.")
     return profiles
 
 def load_destinations(path: Path = DESTINATION_DATA_FILE) -> set[str]:
@@ -173,9 +185,13 @@ def load_destinations(path: Path = DESTINATION_DATA_FILE) -> set[str]:
     """
     destinations: set[str] = set()
     
-    with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-        
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except json.JSONDecodeError as e:
+        logger.error(f"Error decoding JSON from {path}: {e}")
+        raise DataValidationError(f"Invalid JSON in {path}: {e}") from e
+
     for destination in data:
         try:
             name = destination["city"].strip()
@@ -189,8 +205,9 @@ def load_destinations(path: Path = DESTINATION_DATA_FILE) -> set[str]:
             destinations.add(name)
                 
         except KeyError as e:
-            print(f"Rejected destination record, missing field {e}: {destination}")
+            logger.error(f"Rejected destination record, missing field {e}: {destination}")
         except (ValueError, TypeError) as e:
-            print(f"Rejected destination record ({e}): {destination}")
+            logger.error(f"Rejected destination record ({e}): {destination}")
         
+    logger.info(f"Loaded {len(destinations)} destinations from {path}.")
     return destinations
