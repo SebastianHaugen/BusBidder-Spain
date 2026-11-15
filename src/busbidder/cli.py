@@ -1,15 +1,17 @@
 """
 Command line interafce for busbidder Spain.
 """
-
+import sys
+from functools import wraps
 from datetime import date
 
 from busbidder.loading import load_destinations, load_profiles, load_offers, load_companies
 from busbidder.models import TravelRequest
-from busbidder.booking import book_offer, seats_left, load_bookings, save_bookings
+from busbidder.booking import book_offer, load_bookings, save_bookings
 from busbidder.filtering import filter_offers
 from busbidder.scoring.ranker import rank_offers
 from busbidder.scoring.explain import explain_offer
+from busbidder.exceptions import BookingError, BusBidderError
 
 def ask_int(prompt, min_value, max_value):
     while True:
@@ -69,7 +71,10 @@ def ask_yes_no(prompt):
 def ask_travel_profile(profiles):
     print("Available travel profiles:")
     for number, profile in enumerate(profiles.values(), start=1):
-        print(f"{number}. {profile.name}")
+        w = profile.weights
+        print(f"{number}. {profile.name:<29} prefers {profile.preferred_departure:%H:%M} | "
+              f"price {w['price']:.0%}, duration {w['duration']:.0%}, "
+              f"time {w['departure_time']:.0%}, flexibility {w['flexibility']:.0%}")
 
     choice = ask_int(f"Choose a travel profile (1-{len(profiles)}): ", 1, len(profiles))
     return list(profiles.values())[choice - 1]
@@ -96,7 +101,6 @@ def show_ranking(ranked):
     print("-" * 88)
     print("Scores: 0-100 per criterion, higher is better. "
           "Total = weighted sum using your profile's weights.")
-
 
 def show_rejected(rejected):
     """Print the rejected offers as an aligned table with rejection reasons."""
@@ -146,8 +150,28 @@ def choose_offer(ranked):
         else:
             return ranked[choice - 1][0]  # Return the Offer object
 
+def graceful_exit(func):
+    """Run func, turning user cancellation and expected app errors into clean exits.
+
+    Ctrl+C / end-of-input and BusBidder errors print a short message instead
+    of a traceback. Unexpected exceptions are not caught, so real bugs still
+    show a full traceback.
+    """
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except (KeyboardInterrupt, EOFError):
+            print("\nOperation cancelled by user. Exiting.")
+            sys.exit(130)
+        except BusBidderError as e:
+            print(f"\nError: {e}")
+            sys.exit(1)
+    return wrapper
+
+@graceful_exit
 def main() -> None:
-    """ Run the interactive BusBidder program """
+    """ Run the interactive BusBidder program """   
     destinations = sorted(load_destinations())
     
     print("Welcome to BusBidder Spain!")
@@ -205,10 +229,12 @@ def main() -> None:
     print(explain_offer(top_offer, top_total, top_scores, travel_profile)) #Explain the top-ranked offer
     
     # Ask the user to choose an offer to book
-    print(f"which offer would you like to book? (1-{len(ranked)}) or 0 to exit")
     book_offer_choice = choose_offer(ranked)
     if book_offer_choice:
-        booked = book_offer(book_offer_choice, seats, bookings)
-        save_bookings(bookings)
-        show_confirmation(booked, book_offer_choice)
-        print(f"Successfully booked offer {booked.offer_id} for {booked.seats} seats.")
+        try: 
+            booked = book_offer(book_offer_choice, seats, bookings)
+            save_bookings(bookings)
+            show_confirmation(booked, book_offer_choice)
+        except (BookingError) as e:
+            print(f"Error booking offer: {e}")
+            return
