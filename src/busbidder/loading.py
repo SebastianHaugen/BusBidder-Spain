@@ -1,19 +1,20 @@
 """
 Load and validate BusBidder data files.
 
-Reads company data from JSON and offer data from CSV, creating Company and
-Offer objects and validating their contents. Invalid records are rejected
-and logged with the reason they failed.
+Reads companies, destinations and traveller profiles from JSON and offers
+from CSV, converting each record into model objects. Invalid records are
+rejected individually and logged with the reason. A missing or unreadable
+data file raises DataValidationError.
 """
 
-import json
 import csv
+import json
 import logging
-from datetime import datetime, time 
+from datetime import datetime, time
 from pathlib import Path
 
-from busbidder.models import Company, Offer, FareConditions, TravellerProfile
 from busbidder.exceptions import DataValidationError
+from busbidder.models import Company, FareConditions, Offer, TravellerProfile
 
 COMPANY_DATA_FILE = Path("data/companies.json")
 OFFER_DATA_FILE = Path("data/offers.csv")
@@ -25,6 +26,26 @@ RATING_MAX = 5.0
 
 logger = logging.getLogger(__name__)
 
+# Helper function to read JSON files and validate their structure
+def _read_json_file(path: Path) -> list[dict]:
+    """Read a JSON file whose top level is a list, raising DataValidationError on failure."""
+    if not path.exists():
+        logger.error(f"Data file {path} does not exist.")
+        raise DataValidationError(f"Data file {path} does not exist.")
+
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except json.JSONDecodeError as e:
+        logger.error(f"Error decoding JSON from {path}: {e}")
+        raise DataValidationError(f"Invalid JSON in {path}: {e}") from e
+
+    if not isinstance(data, list):
+        logger.error(f"Expected a list in {path}, got {type(data).__name__}")
+        raise DataValidationError(f"Expected a list in {path}, got {type(data).__name__}")
+
+    return data
+
 def load_companies(path: Path = COMPANY_DATA_FILE) -> dict[str, Company]:
     """
     Load company data from a JSON file.
@@ -32,19 +53,11 @@ def load_companies(path: Path = COMPANY_DATA_FILE) -> dict[str, Company]:
     Each record must contain name, profile_desc and rating. Records with
     missing fields, invalid ratings or duplicate names are rejected.
 
-    Args:
-        path: Path to the JSON file containing company data.
-
     Returns:
         A dict mapping company name to Company object.
     """
     companies: dict[str, Company] = {}
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except json.JSONDecodeError as e:
-        logger.error(f"Error decoding JSON from {path}: {e}")
-        raise DataValidationError(f"Invalid JSON in {path}: {e}") from e
+    data = _read_json_file(path)
 
     for record in data:
         try:
@@ -53,9 +66,7 @@ def load_companies(path: Path = COMPANY_DATA_FILE) -> dict[str, Company]:
             rating = float(record["rating"])
 
             if not (RATING_MIN <= rating <= RATING_MAX):
-                raise DataValidationError(
-                    f"rating {rating} outside {RATING_MIN}-{RATING_MAX}"
-                )
+                raise DataValidationError(f"rating {rating} outside {RATING_MIN}-{RATING_MAX}")
             if name in companies:
                 raise DataValidationError(f"duplicate company name {name!r}")
 
@@ -69,16 +80,28 @@ def load_companies(path: Path = COMPANY_DATA_FILE) -> dict[str, Company]:
     logger.info(f"Loaded {len(companies)} companies from {path}.")
     return companies
 
-def load_offers(companies: dict[str, Company], destinations: set[str],  path: Path = OFFER_DATA_FILE) -> list[Offer]:
+
+def load_offers(companies: dict[str, Company], destinations: set[str],
+                path: Path = OFFER_DATA_FILE) -> list[Offer]:
     """
     Load offer data from a CSV file.
+
+    Records with missing fields, invalid values, unknown companies or
+    destinations, or duplicate IDs are rejected.
+
+    Returns:
+        A list of valid Offer objects.
     """
+    if not path.exists():
+        logger.error(f"Data file {path} does not exist.")
+        raise DataValidationError(f"Data file {path} does not exist.")
+
+    offers: list[Offer] = []
+    seen_ids: set[int] = set()
+
     with open(path, "r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
-        
-        offers: list[Offer] = []
-        seen_ids: set[int] = set()
-                
+
         for record in reader:
             try:
                 offer_id = int(record["offer_id"])
@@ -89,51 +112,44 @@ def load_offers(companies: dict[str, Company], destinations: set[str],  path: Pa
                 destination = record["destination"]
                 transfers = int(record["transfers"])
                 seats_available = int(record["seats_available"])
-                
+
                 fare_conditions = FareConditions(
                     changeable=record["changeable"].lower() == "true",
                     refundable=record["refundable"].lower() == "true",
-                    baggage_limit=int(record["baggage_limit"])
+                    baggage_limit=int(record["baggage_limit"]),
                 )
-                
+
                 if company_name not in companies:
                     raise DataValidationError(f"company {company_name!r} not found")
-                
                 if price <= 0:
                     raise DataValidationError(f"price {price} must be positive")
-                
                 if arrival <= departure:
                     raise DataValidationError(f"arrival {arrival} must be after departure {departure}")
-                
                 if seats_available < 0:
                     raise DataValidationError(f"seats_available {seats_available} cannot be negative")
-                
                 if transfers < 0:
                     raise DataValidationError(f"transfers {transfers} cannot be negative")
-                
                 if offer_id in seen_ids:
                     raise DataValidationError(f"duplicate offer_id {offer_id}")
-                
                 if destination not in destinations:
                     raise DataValidationError(f"unknown destination {destination!r}")
-                                                
-                company = companies[company_name]
-                
+
                 offer = Offer(
-                    offer_id, company, price, departure, arrival,
-                    destination, transfers, seats_available, fare_conditions
+                    offer_id, companies[company_name], price, departure, arrival,
+                    destination, transfers, seats_available, fare_conditions,
                 )
-                
+
                 seen_ids.add(offer_id)
                 offers.append(offer)
-            
+
             except KeyError as e:
                 logger.error(f"Rejected offer record, missing field {e}: {record}")
-            except (ValueError, TypeError) as e:
+            except (ValueError, TypeError, AttributeError) as e:
                 logger.error(f"Rejected offer record ({e}): {record}")
-        
-        logger.info(f"Loaded {len(offers)} offers from {path}.")
-        return offers
+
+    logger.info(f"Loaded {len(offers)} offers from {path}.")
+    return offers
+
 
 def load_profiles(path: Path = PROFILE_DATA_FILE) -> dict[str, TravellerProfile]:
     """
@@ -146,13 +162,7 @@ def load_profiles(path: Path = PROFILE_DATA_FILE) -> dict[str, TravellerProfile]
         A dict mapping profile name to TravellerProfile object.
     """
     profiles: dict[str, TravellerProfile] = {}
-    
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except json.JSONDecodeError as e:
-        logger.error(f"Error decoding JSON from {path}: {e}")
-        raise DataValidationError(f"Invalid JSON in {path}: {e}") from e
+    data = _read_json_file(path)
 
     for record in data:
         try:
@@ -184,30 +194,23 @@ def load_destinations(path: Path = DESTINATION_DATA_FILE) -> set[str]:
         A set of valid destination names.
     """
     destinations: set[str] = set()
-    
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except json.JSONDecodeError as e:
-        logger.error(f"Error decoding JSON from {path}: {e}")
-        raise DataValidationError(f"Invalid JSON in {path}: {e}") from e
+    data = _read_json_file(path)
 
-    for destination in data:
+    for record in data:
         try:
-            name = destination["city"].strip()
-                
+            name = record["city"].strip()
+
             if not name:
                 raise DataValidationError("empty destination name")
-
             if name in destinations:
                 raise DataValidationError(f"duplicate destination name {name!r}")
 
             destinations.add(name)
-                
+
         except KeyError as e:
-            logger.error(f"Rejected destination record, missing field {e}: {destination}")
-        except (ValueError, TypeError) as e:
-            logger.error(f"Rejected destination record ({e}): {destination}")
-        
+            logger.error(f"Rejected destination record, missing field {e}: {record}")
+        except (ValueError, TypeError, AttributeError) as e:
+            logger.error(f"Rejected destination record ({e}): {record}")
+
     logger.info(f"Loaded {len(destinations)} destinations from {path}.")
     return destinations
