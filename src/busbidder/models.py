@@ -127,3 +127,9 @@ class Booking:
     
     def __repr__(self):
         return f"Booking({self.reference}, offer {self.offer_id}, {self.seats} seat(s))"
+    
+    # for fare conditions comparison, we can define an equality method
+    def __eq__(self, other):
+        return (self.changeable == other.changeable
+                and self.refundable == other.refundable
+                and self.baggage_limit == other.baggage_limit)
