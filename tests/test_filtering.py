@@ -38,12 +38,15 @@ REQUEST = TravelRequest("Malaga", date(2026, 7, 12), date(2026, 7, 14),
                         max_price=50, max_transfers=1, requires_changeable=True)
 
 def test_valid_offer_passes():
+    """A valid offer that meets all the request criteria passes the check."""
     assert check_offer(make_offer(), REQUEST, []) == []
 
 def test_price_exactly_at_budget_passes():
+    """An offer with a price exactly equal to the request's max_price passes the check."""
     assert check_offer(make_offer(price=50.0), REQUEST, []) == []
     
 def test_price_over_budget_fails():
+    """An offer with a price above the request's max_price fails the check."""
     reasons = check_offer(make_offer(price=60.0), REQUEST, [])
     assert any("Price" in reason for reason in reasons)
 
@@ -66,10 +69,12 @@ def test_departure_outside_window_rejected():
     assert any("Departure" in r for r in check_offer(after, REQUEST, []))
 
 def test_too_many_transfers_rejected():
+    """An offer with more transfers than the request allows is rejected."""
     reasons = check_offer(make_offer(transfers=2), REQUEST, [])
     assert any("Transfers" in reason for reason in reasons)
 
 def test_not_changeable_rejected_when_required():
+    """An offer that is not changeable is rejected if the request requires changeable."""
     reasons = check_offer(make_offer(fare_conditions=FareConditions(changeable=False, refundable=False, baggage_limit=20)), REQUEST, [])
     assert any("changeable" in reason for reason in reasons)
     
@@ -87,5 +92,6 @@ def test_fully_booked_offer_rejected():
     assert any("seats" in reason for reason in reasons)
     
 def test_wrong_destination_rejected():
+    """An offer with a destination that does not match the request is rejected."""
     reasons = check_offer(make_offer(destination="Barcelona"), REQUEST, [])
     assert any("Destination" in reason for reason in reasons)

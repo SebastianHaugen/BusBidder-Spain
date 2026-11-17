@@ -40,6 +40,7 @@ def make_booking(offer_id=1, seats=1, reference="1-1-ABCDE"):
     )
 
 def test_booking_reduces_seats_left():
+    """Booking an offer reduces the number of seats available."""
     offer = make_offer(seats_available=10)
     booking = make_booking(offer_id=offer.offer_id, seats=3)
     # Simulate booking
@@ -47,6 +48,7 @@ def test_booking_reduces_seats_left():
     assert offer.seats_available == 7
 
 def test_booking_exactly_remaining_seats(): 
+    """Booking an offer with exactly the remaining seats reduces seats to zero."""
     offer = make_offer(seats_available=5)
     booking = make_booking(offer_id=offer.offer_id, seats=5)
     # Simulate booking
@@ -54,6 +56,7 @@ def test_booking_exactly_remaining_seats():
     assert offer.seats_available == 0
     
 def test_overbooking_raises_booking_error():   
+    """Booking more seats than available raises a BookingError."""
     offer = make_offer(seats_available=2)
     booking = make_booking(offer_id=offer.offer_id, seats=3)
     try:
@@ -64,16 +67,19 @@ def test_overbooking_raises_booking_error():
         assert str(e) == "Cannot book 3 seats; only 2 available."
 
 def test_zero_seats_raises_booking_error():  
+    """Booking zero seats raises a BookingError."""
     offer = make_offer(seats_available=5)
     with pytest.raises(BookingError):
         book_offer(offer, 0, [])
             
 def test_reference_matches_pattern():
+    """Booking reference should follow the pattern: offer_id-seats-randomstring."""
     offer = make_offer(offer_id=42)
     booking = make_booking(offer_id=offer.offer_id, seats=3, reference="42-3-ABCDE")
     assert booking.reference.startswith(f"{offer.offer_id}-{booking.seats}-")
 
 def test_invalid_reference_rejected():   
+    """Booking with an invalid reference format raises a BookingError."""
     offer = make_offer(offer_id=42)
     booking = make_booking(offer_id=offer.offer_id, seats=3, reference="INVALID-REF")
     try:
@@ -84,6 +90,7 @@ def test_invalid_reference_rejected():
         assert str(e) == "Invalid booking reference: INVALID-REF"
 
 def test_save_and_load_round_trip(tmp_path):  
+    """Bookings saved to a file can be loaded back and match the original."""
     bookings = [
         make_booking(offer_id=1, seats=2, reference="1-2-ABCDE"),
         make_booking(offer_id=2, seats=1, reference="2-1-FGHIJ"),
@@ -107,6 +114,7 @@ def test_save_and_load_round_trip(tmp_path):
         assert original.booked_at == loaded.booked_at
         
 def test_missing_bookings_file_returns_empty(tmp_path):
+    """Loading bookings from a non-existent file returns an empty list."""
     file_path = tmp_path / "nonexistent_bookings.json"
     
     from busbidder.booking import load_bookings
@@ -115,6 +123,7 @@ def test_missing_bookings_file_returns_empty(tmp_path):
     assert loaded_bookings == []
 
 def test_corrupt_bookings_file_raises(tmp_path):
+    """Loading bookings from a corrupt JSON file raises DataValidationError."""
     file_path = tmp_path / "corrupt_bookings.json"
     file_path.write_text("not a valid json")
     
@@ -125,4 +134,3 @@ def test_corrupt_bookings_file_raises(tmp_path):
         assert True
     else:
         assert False, "Expected DataValidationError for corrupt bookings file"
-        
