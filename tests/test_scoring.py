@@ -1,0 +1,110 @@
+"""Tests for the scoring criteria and ranking."""
+
+from datetime import datetime, time
+
+import pytest
+
+from busbidder.models import Company, FareConditions, Offer, TravellerProfile
+from busbidder.scoring.ranker import rank_offers
+from busbidder.scoring.criteria import score_price, score_departure_time, score_flexibility
+
+
+def make_offer(**changes):
+    """Build a valid Malaga offer, override any field via keyword arguments."""
+    fields = dict(
+        offer_id=1,
+        company=Company("TestBus", "test", 4.0),
+        price=40.0,
+        departure=datetime(2026, 7, 12, 9, 0),
+        arrival=datetime(2026, 7, 12, 15, 0),
+        destination="Malaga",
+        transfers=0,
+        seats_available=10,
+        fare_conditions=FareConditions(True, False, 20),
+    )
+    fields.update(changes)
+    return Offer(**fields)
+
+
+PROFILE = TravellerProfile(
+    "Balanced traveller",
+    time(9, 0),
+    {"price": 0.4, "duration": 0.25, "departure_time": 0.15, "flexibility": 0.2},
+)
+
+def test_cheapest_offer_gets_price_score_100():
+    cheap = make_offer(offer_id=1, price=20.0)
+    dear = make_offer(offer_id=2, price=40.0)
+    offers = [cheap, dear]
+
+    assert score_price(cheap, offers, None, PROFILE) == 100
+    assert score_price(dear, offers, None, PROFILE) == 0
+
+def test_equal_prices_all_score_100():     
+    equal1 = make_offer(offer_id=1, price=40.0)
+    equal2 = make_offer(offer_id=2, price=40.0)
+    offers = [equal1, equal2]
+    
+    assert score_price(equal1, offers, None, PROFILE) == 100
+    assert score_price(equal2, offers, None, PROFILE) == 100
+
+def test_departure_penalty_per_hour():
+    on_time = make_offer(offer_id=1, departure=datetime(2026, 7, 12, 9, 0))
+    two_hours_late = make_offer(offer_id=2, departure=datetime(2026, 7, 12, 11, 0),
+                                arrival=datetime(2026, 7, 12, 17, 0))
+    offers = [on_time, two_hours_late]
+
+    assert score_departure_time(on_time, offers, None, PROFILE) == 100   # exact preferred time
+    assert score_departure_time(two_hours_late, offers, None, PROFILE) == 80  # 2 h × 10 points penalty
+    
+def test_departure_score_never_below_zero():   
+    very_late = make_offer(offer_id=1,
+                           departure=datetime(2026, 7, 12, 23, 0),
+                           arrival=datetime(2026, 7, 13, 6, 0))
+    offers = [very_late]
+    
+    assert score_departure_time(very_late, offers, None, PROFILE) == 0  # 14 hours late, but score should not go below 0    
+
+def test_flexibility_categories():   
+    flexible = make_offer(offer_id=1, fare_conditions=FareConditions(changeable=True, refundable=True, baggage_limit=20))
+    inflexible = make_offer(offer_id=2, fare_conditions=FareConditions(changeable=False, refundable=False, baggage_limit=20))
+    partial = make_offer(offer_id=3, fare_conditions=FareConditions(changeable=True, refundable=False, baggage_limit=20))
+    offers = [flexible, inflexible, partial]
+    
+    assert score_flexibility(flexible, offers, None, PROFILE) == 100
+    assert score_flexibility(inflexible, offers, None, PROFILE) == 0
+    assert score_flexibility(partial, offers, None, PROFILE) == 50
+    
+def test_weights_missing_criteria_rejected():  
+    bad_profile = TravellerProfile(
+        "Bad weights",
+        time(9, 0),
+        {"price": 0.5, "duration": 0.5},  
+    )
+    
+    offer1 = make_offer(offer_id=1, price=20.0)
+    offer2 = make_offer(offer_id=2, price=40.0)
+    
+    offers = [offer1, offer2]
+    with pytest.raises(ValueError):
+        rank_offers(offers, None, bad_profile)
+
+def test_shorter_journey_ranks_higher(): 
+    offer1 = make_offer(offer_id=1, price=20.0, departure=datetime(2026, 7, 12, 8, 0), arrival=datetime(2026, 7, 12, 15, 0))  
+    offer2 = make_offer(offer_id=2, price=20.0, departure=datetime(2026, 7, 12, 10, 0), arrival=datetime(2026, 7, 12, 15, 0))  
+    offers = [offer1, offer2]
+    
+    ranked = rank_offers(offers, None, PROFILE)
+    
+    assert ranked[0][0] == offer2  
+    assert ranked[1][0] == offer1 
+
+def test_tie_broken_by_lower_offer_id():
+    first = make_offer(offer_id=1)
+    second = make_offer(offer_id=2)
+
+    ranked = rank_offers([second, first], None, PROFILE)
+
+    assert ranked[0][1] == ranked[1][1]                 # totals really are equal
+    assert [r[0].offer_id for r in ranked] == [1, 2]    # lower ID wins the tie  
+    
