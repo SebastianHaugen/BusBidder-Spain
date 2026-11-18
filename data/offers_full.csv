@@ -1,0 +1,232 @@
+offer_id,company,destination,departure,arrival,price,transfers,seats_available,changeable,refundable,baggage_limit
+1,SolRuta,Toledo,2026-07-12T08:00:00,2026-07-12T09:00:00,5.25,0,27,true,false,15
+2,SolRuta,Toledo,2026-07-13T15:00:00,2026-07-13T16:00:00,5.28,0,21,true,false,15
+3,SolRuta,Toledo,2026-07-14T15:00:00,2026-07-14T16:04:00,5.57,1,26,false,false,15
+4,SolRuta,Salamanca,2026-07-12T13:00:00,2026-07-12T15:48:00,14.74,1,28,false,true,15
+5,SolRuta,Salamanca,2026-07-13T09:00:00,2026-07-13T11:57:00,15.46,0,28,true,false,15
+6,SolRuta,Salamanca,2026-07-14T12:00:00,2026-07-14T14:46:00,14.56,0,23,false,false,15
+7,SolRuta,Zaragoza,2026-07-12T11:00:00,2026-07-12T14:47:00,19.89,1,34,false,false,15
+8,SolRuta,Zaragoza,2026-07-13T13:00:00,2026-07-13T16:31:00,18.48,0,40,false,false,15
+9,SolRuta,Zaragoza,2026-07-14T16:00:00,2026-07-14T19:34:00,18.7,0,21,false,false,15
+10,SolRuta,Cordoba,2026-07-12T08:00:00,2026-07-12T12:54:00,25.69,0,32,true,false,15
+11,SolRuta,Cordoba,2026-07-13T12:00:00,2026-07-13T16:34:00,23.97,0,26,false,false,15
+12,SolRuta,Cordoba,2026-07-14T08:00:00,2026-07-14T12:47:00,25.08,0,37,false,false,15
+13,SolRuta,Valencia,2026-07-12T13:00:00,2026-07-12T17:22:00,22.89,1,37,true,false,15
+14,SolRuta,Valencia,2026-07-13T07:00:00,2026-07-13T11:20:00,22.79,0,30,false,false,15
+15,SolRuta,Valencia,2026-07-14T16:00:00,2026-07-14T20:38:00,24.31,0,26,false,false,15
+16,SolRuta,Murcia,2026-07-12T14:00:00,2026-07-12T19:04:00,26.58,0,27,false,false,15
+17,SolRuta,Murcia,2026-07-13T16:00:00,2026-07-13T21:13:00,27.37,1,32,false,false,15
+18,SolRuta,Murcia,2026-07-14T09:00:00,2026-07-14T14:15:00,27.59,0,21,false,false,15
+19,SolRuta,Bilbao,2026-07-12T09:00:00,2026-07-12T14:08:00,26.95,0,39,true,false,15
+20,SolRuta,Bilbao,2026-07-13T14:00:00,2026-07-13T19:00:00,26.26,1,20,false,false,15
+21,SolRuta,Bilbao,2026-07-14T15:00:00,2026-07-14T20:07:00,26.84,1,30,true,false,15
+22,SolRuta,Granada,2026-07-12T14:00:00,2026-07-12T18:59:00,26.19,1,28,false,false,15
+23,SolRuta,Granada,2026-07-13T15:00:00,2026-07-13T20:28:00,28.7,1,29,false,false,15
+24,SolRuta,Granada,2026-07-14T10:00:00,2026-07-14T15:04:00,26.61,0,37,false,false,15
+25,SolRuta,Alicante,2026-07-12T07:00:00,2026-07-12T12:34:00,29.23,0,20,true,false,15
+26,SolRuta,Alicante,2026-07-13T11:00:00,2026-07-13T16:22:00,28.19,0,38,false,false,15
+27,SolRuta,Alicante,2026-07-14T14:00:00,2026-07-14T19:41:00,29.86,1,24,true,false,15
+28,SolRuta,Seville,2026-07-12T15:00:00,2026-07-12T21:05:00,31.97,1,39,false,false,15
+29,SolRuta,Seville,2026-07-13T15:00:00,2026-07-13T21:28:00,33.92,1,26,false,false,15
+30,SolRuta,Seville,2026-07-14T12:00:00,2026-07-14T18:16:00,32.87,1,34,true,false,15
+31,SolRuta,San Sebastian,2026-07-12T12:00:00,2026-07-12T17:45:00,30.18,1,27,false,true,15
+32,SolRuta,San Sebastian,2026-07-13T07:00:00,2026-07-13T12:52:00,30.84,0,30,true,false,15
+33,SolRuta,San Sebastian,2026-07-14T14:00:00,2026-07-14T19:52:00,30.79,0,38,false,false,15
+34,SolRuta,Malaga,2026-07-12T14:00:00,2026-07-12T20:30:00,34.09,0,23,true,false,15
+35,SolRuta,Malaga,2026-07-13T13:00:00,2026-07-13T19:15:00,32.78,1,21,false,false,15
+36,SolRuta,Malaga,2026-07-14T08:00:00,2026-07-14T14:01:00,31.62,1,30,false,false,15
+37,SolRuta,Barcelona,2026-07-12T10:00:00,2026-07-12T17:38:00,40.06,0,24,false,false,15
+38,SolRuta,Barcelona,2026-07-13T10:00:00,2026-07-13T18:10:00,42.89,0,34,false,false,15
+39,SolRuta,Barcelona,2026-07-14T08:00:00,2026-07-14T15:31:00,39.49,1,20,false,false,15
+40,SolRuta,Cadiz,2026-07-12T10:00:00,2026-07-12T17:37:00,39.96,0,35,true,false,15
+41,SolRuta,Cadiz,2026-07-13T07:00:00,2026-07-13T14:37:00,39.96,0,32,true,false,15
+42,SolRuta,Cadiz,2026-07-14T14:00:00,2026-07-14T21:42:00,40.46,1,37,false,false,15
+43,SolRuta,Santiago de Compostela,2026-07-12T10:00:00,2026-07-12T18:14:00,43.2,0,38,false,false,15
+44,SolRuta,Santiago de Compostela,2026-07-13T12:00:00,2026-07-13T20:02:00,42.15,1,35,false,false,15
+45,SolRuta,Santiago de Compostela,2026-07-14T09:00:00,2026-07-14T17:02:00,42.15,1,22,false,false,15
+46,Camino Express,Toledo,2026-07-12T06:00:00,2026-07-12T06:52:00,8.17,0,14,true,false,25
+47,Camino Express,Toledo,2026-07-13T07:00:00,2026-07-13T07:51:00,8.1,0,17,true,false,25
+48,Camino Express,Toledo,2026-07-14T10:00:00,2026-07-14T10:51:00,8.05,0,11,true,true,25
+49,Camino Express,Salamanca,2026-07-12T08:00:00,2026-07-12T10:19:00,21.86,0,15,true,false,25
+50,Camino Express,Salamanca,2026-07-13T06:00:00,2026-07-13T08:13:00,21.01,0,9,true,true,25
+51,Camino Express,Salamanca,2026-07-14T07:00:00,2026-07-14T09:26:00,23.05,0,11,true,true,25
+52,Camino Express,Zaragoza,2026-07-12T10:00:00,2026-07-12T13:02:00,28.69,0,18,true,true,25
+53,Camino Express,Zaragoza,2026-07-13T11:00:00,2026-07-13T13:51:00,27.0,0,12,true,true,25
+54,Camino Express,Zaragoza,2026-07-14T10:00:00,2026-07-14T12:52:00,27.15,0,17,true,true,25
+55,Camino Express,Cordoba,2026-07-12T11:00:00,2026-07-12T14:53:00,36.63,0,16,true,false,25
+56,Camino Express,Cordoba,2026-07-13T06:00:00,2026-07-13T09:40:00,34.67,0,12,true,true,25
+57,Camino Express,Cordoba,2026-07-14T07:00:00,2026-07-14T10:53:00,36.64,0,10,true,true,25
+58,Camino Express,Valencia,2026-07-12T09:00:00,2026-07-12T12:38:00,34.35,0,9,false,false,25
+59,Camino Express,Valencia,2026-07-13T07:00:00,2026-07-13T10:38:00,34.29,0,17,true,true,25
+60,Camino Express,Valencia,2026-07-14T06:00:00,2026-07-14T09:33:00,33.48,0,13,true,true,25
+61,Camino Express,Murcia,2026-07-12T06:00:00,2026-07-12T10:11:00,39.57,0,17,true,false,25
+62,Camino Express,Murcia,2026-07-13T07:00:00,2026-07-13T11:24:00,41.63,0,14,true,false,25
+63,Camino Express,Murcia,2026-07-14T08:00:00,2026-07-14T12:22:00,41.3,0,20,true,false,25
+64,Camino Express,Bilbao,2026-07-12T07:00:00,2026-07-12T10:57:00,37.26,0,14,true,false,25
+65,Camino Express,Bilbao,2026-07-13T07:00:00,2026-07-13T10:55:00,37.01,0,13,true,false,25
+66,Camino Express,Bilbao,2026-07-14T07:00:00,2026-07-14T10:56:00,37.1,0,14,true,false,25
+67,Camino Express,Granada,2026-07-12T08:00:00,2026-07-12T12:11:00,39.56,0,18,false,true,25
+68,Camino Express,Granada,2026-07-13T06:00:00,2026-07-13T10:05:00,38.62,0,10,true,false,25
+69,Camino Express,Granada,2026-07-14T06:00:00,2026-07-14T10:05:00,38.59,0,13,true,true,25
+70,Camino Express,Alicante,2026-07-12T10:00:00,2026-07-12T14:41:00,44.21,0,14,true,true,25
+71,Camino Express,Alicante,2026-07-13T06:00:00,2026-07-13T10:33:00,43.05,0,16,false,true,25
+72,Camino Express,Alicante,2026-07-14T11:00:00,2026-07-14T15:40:00,44.03,0,13,true,false,25
+73,Camino Express,Seville,2026-07-12T08:00:00,2026-07-12T13:10:00,48.79,0,19,false,true,25
+74,Camino Express,Seville,2026-07-13T11:00:00,2026-07-13T16:03:00,47.75,0,19,true,true,25
+75,Camino Express,Seville,2026-07-14T09:00:00,2026-07-14T14:11:00,48.99,0,18,true,true,25
+76,Camino Express,San Sebastian,2026-07-12T10:00:00,2026-07-12T14:47:00,45.27,0,12,true,true,25
+77,Camino Express,San Sebastian,2026-07-13T10:00:00,2026-07-13T14:56:00,46.68,0,15,true,false,25
+78,Camino Express,San Sebastian,2026-07-14T10:00:00,2026-07-14T14:52:00,46.06,0,18,true,true,25
+79,Camino Express,Malaga,2026-07-12T11:00:00,2026-07-12T16:10:00,48.77,0,20,true,true,25
+80,Camino Express,Malaga,2026-07-13T07:00:00,2026-07-13T11:55:00,46.5,0,11,false,false,25
+81,Camino Express,Malaga,2026-07-14T06:00:00,2026-07-14T11:05:00,47.98,0,19,true,true,25
+82,Camino Express,Barcelona,2026-07-12T07:00:00,2026-07-12T13:09:00,58.12,0,20,true,false,25
+83,Camino Express,Barcelona,2026-07-13T09:00:00,2026-07-13T15:12:00,58.55,0,8,true,false,25
+84,Camino Express,Barcelona,2026-07-14T06:00:00,2026-07-14T12:21:00,59.98,0,18,true,true,25
+85,Camino Express,Cadiz,2026-07-12T08:00:00,2026-07-12T14:40:00,62.95,0,17,true,false,25
+86,Camino Express,Cadiz,2026-07-13T09:00:00,2026-07-13T15:35:00,62.24,0,10,true,true,25
+87,Camino Express,Cadiz,2026-07-14T08:00:00,2026-07-14T14:32:00,61.76,0,20,true,true,25
+88,Camino Express,Santiago de Compostela,2026-07-12T07:00:00,2026-07-12T13:39:00,62.81,0,19,true,true,25
+89,Camino Express,Santiago de Compostela,2026-07-13T08:00:00,2026-07-13T15:04:00,66.79,0,10,true,true,25
+90,Camino Express,Santiago de Compostela,2026-07-14T07:00:00,2026-07-14T13:56:00,65.59,0,14,true,true,25
+91,CostaLink,Toledo,2026-07-12T14:00:00,2026-07-12T15:03:00,6.99,1,27,false,false,23
+92,CostaLink,Toledo,2026-07-13T08:00:00,2026-07-13T09:08:00,7.58,1,27,true,false,23
+93,CostaLink,Toledo,2026-07-14T12:00:00,2026-07-14T13:08:00,7.5,1,22,true,true,23
+94,CostaLink,Salamanca,2026-07-12T15:00:00,2026-07-12T17:53:00,19.17,1,27,false,false,23
+95,CostaLink,Salamanca,2026-07-13T10:00:00,2026-07-13T13:10:00,21.08,1,15,false,false,23
+96,CostaLink,Salamanca,2026-07-14T18:00:00,2026-07-14T20:53:00,19.16,1,28,true,false,23
+97,CostaLink,Zaragoza,2026-07-12T08:00:00,2026-07-12T11:45:00,24.99,1,21,true,false,23
+98,CostaLink,Zaragoza,2026-07-13T14:00:00,2026-07-13T17:46:00,25.03,1,23,false,false,23
+99,CostaLink,Zaragoza,2026-07-14T16:00:00,2026-07-14T19:41:00,24.46,1,22,true,false,23
+100,CostaLink,Cordoba,2026-07-12T18:00:00,2026-07-12T22:43:00,31.4,0,22,true,true,23
+101,CostaLink,Cordoba,2026-07-13T10:00:00,2026-07-13T14:49:00,32.06,1,18,true,true,23
+102,CostaLink,Cordoba,2026-07-14T12:00:00,2026-07-14T17:05:00,33.8,0,18,false,true,23
+103,CostaLink,Valencia,2026-07-12T12:00:00,2026-07-12T16:30:00,25.39,0,24,true,false,23
+104,CostaLink,Valencia,2026-07-13T14:00:00,2026-07-13T18:38:00,26.15,1,21,true,false,23
+105,CostaLink,Valencia,2026-07-14T18:00:00,2026-07-14T22:33:00,25.75,1,24,false,false,23
+106,CostaLink,Murcia,2026-07-12T09:00:00,2026-07-12T14:40:00,32.01,1,16,true,false,23
+107,CostaLink,Murcia,2026-07-13T13:00:00,2026-07-13T18:16:00,29.75,1,25,true,false,23
+108,CostaLink,Murcia,2026-07-14T15:00:00,2026-07-14T20:17:00,29.86,1,29,false,false,23
+109,CostaLink,Bilbao,2026-07-12T16:00:00,2026-07-12T21:28:00,36.36,1,30,true,false,23
+110,CostaLink,Bilbao,2026-07-13T17:00:00,2026-07-13T22:06:00,33.94,0,17,true,false,23
+111,CostaLink,Bilbao,2026-07-14T15:00:00,2026-07-14T20:16:00,34.99,1,27,true,false,23
+112,CostaLink,Granada,2026-07-12T13:00:00,2026-07-12T18:20:00,35.41,0,26,false,false,23
+113,CostaLink,Granada,2026-07-13T17:00:00,2026-07-13T22:37:00,37.31,1,15,true,true,23
+114,CostaLink,Granada,2026-07-14T11:00:00,2026-07-14T16:37:00,37.38,1,22,true,false,23
+115,CostaLink,Alicante,2026-07-12T15:00:00,2026-07-12T20:45:00,32.47,0,17,true,false,23
+116,CostaLink,Alicante,2026-07-13T11:00:00,2026-07-13T16:40:00,32.01,1,26,true,false,23
+117,CostaLink,Alicante,2026-07-14T14:00:00,2026-07-14T20:04:00,34.26,1,25,true,false,23
+118,CostaLink,Seville,2026-07-12T12:00:00,2026-07-12T18:26:00,42.8,0,21,true,false,23
+119,CostaLink,Seville,2026-07-13T10:00:00,2026-07-13T16:24:00,42.54,1,30,true,false,23
+120,CostaLink,Seville,2026-07-14T16:00:00,2026-07-14T22:40:00,44.31,0,21,true,false,23
+121,CostaLink,San Sebastian,2026-07-12T12:00:00,2026-07-12T18:01:00,34.02,1,19,true,false,23
+122,CostaLink,San Sebastian,2026-07-13T16:00:00,2026-07-13T22:12:00,35.01,0,30,true,true,23
+123,CostaLink,San Sebastian,2026-07-14T12:00:00,2026-07-14T18:18:00,35.64,1,25,true,true,23
+124,CostaLink,Malaga,2026-07-12T15:00:00,2026-07-12T21:21:00,35.87,0,27,true,false,23
+125,CostaLink,Malaga,2026-07-13T18:00:00,2026-07-14T00:18:00,35.64,0,24,true,true,23
+126,CostaLink,Malaga,2026-07-14T16:00:00,2026-07-14T22:46:00,38.29,1,22,false,false,23
+127,CostaLink,Barcelona,2026-07-12T15:00:00,2026-07-12T23:05:00,45.69,1,28,true,false,23
+128,CostaLink,Barcelona,2026-07-13T17:00:00,2026-07-14T01:38:00,48.78,0,21,true,true,23
+129,CostaLink,Barcelona,2026-07-14T09:00:00,2026-07-14T16:58:00,45.03,0,17,true,false,23
+130,CostaLink,Cadiz,2026-07-12T17:00:00,2026-07-13T01:14:00,46.49,0,22,true,true,23
+131,CostaLink,Cadiz,2026-07-13T15:00:00,2026-07-13T22:54:00,44.63,0,23,false,false,23
+132,CostaLink,Cadiz,2026-07-14T18:00:00,2026-07-15T02:30:00,48.05,0,28,true,true,23
+133,CostaLink,Santiago de Compostela,2026-07-12T10:00:00,2026-07-12T19:10:00,60.91,0,17,true,false,23
+134,CostaLink,Santiago de Compostela,2026-07-13T17:00:00,2026-07-14T02:01:00,59.98,1,24,true,false,23
+135,CostaLink,Santiago de Compostela,2026-07-14T12:00:00,2026-07-14T20:59:00,59.69,1,30,true,false,23
+136,VerdeBus,Toledo,2026-07-12T13:00:00,2026-07-12T14:01:00,8.24,1,18,true,true,30
+137,VerdeBus,Toledo,2026-07-13T17:00:00,2026-07-13T18:02:00,8.32,1,10,false,true,30
+138,VerdeBus,Toledo,2026-07-14T11:00:00,2026-07-14T12:00:00,8.11,0,25,true,true,30
+139,VerdeBus,Salamanca,2026-07-12T11:00:00,2026-07-12T13:40:00,21.43,1,23,true,true,30
+140,VerdeBus,Salamanca,2026-07-13T08:00:00,2026-07-13T10:45:00,22.07,0,20,true,true,30
+141,VerdeBus,Salamanca,2026-07-14T09:00:00,2026-07-14T11:42:00,21.76,1,25,true,false,30
+142,VerdeBus,Zaragoza,2026-07-12T15:00:00,2026-07-12T18:20:00,26.87,0,20,true,true,30
+143,VerdeBus,Zaragoza,2026-07-13T13:00:00,2026-07-13T16:38:00,29.2,0,24,true,true,30
+144,VerdeBus,Zaragoza,2026-07-14T12:00:00,2026-07-14T15:33:00,28.52,0,24,true,true,30
+145,VerdeBus,Cordoba,2026-07-12T15:00:00,2026-07-12T19:20:00,34.89,0,24,false,true,30
+146,VerdeBus,Cordoba,2026-07-13T07:00:00,2026-07-13T11:43:00,37.94,1,17,true,true,30
+147,VerdeBus,Cordoba,2026-07-14T07:00:00,2026-07-14T11:31:00,36.41,0,17,false,false,30
+148,VerdeBus,Valencia,2026-07-12T14:00:00,2026-07-12T18:26:00,35.74,1,14,true,false,30
+149,VerdeBus,Valencia,2026-07-13T15:00:00,2026-07-13T19:20:00,34.92,0,25,false,true,30
+150,VerdeBus,Valencia,2026-07-14T15:00:00,2026-07-14T19:06:00,33.0,0,14,false,true,30
+151,VerdeBus,Murcia,2026-07-12T13:00:00,2026-07-12T17:55:00,39.61,1,18,true,true,30
+152,VerdeBus,Murcia,2026-07-13T11:00:00,2026-07-13T16:10:00,41.61,1,25,false,true,30
+153,VerdeBus,Murcia,2026-07-14T14:00:00,2026-07-14T18:55:00,39.63,1,22,true,true,30
+154,VerdeBus,Bilbao,2026-07-12T10:00:00,2026-07-12T14:59:00,40.08,0,22,true,false,30
+155,VerdeBus,Bilbao,2026-07-13T07:00:00,2026-07-13T11:40:00,37.54,0,22,true,true,30
+156,VerdeBus,Bilbao,2026-07-14T17:00:00,2026-07-14T21:59:00,40.08,0,11,true,false,30
+157,VerdeBus,Granada,2026-07-12T12:00:00,2026-07-12T17:11:00,41.74,0,13,true,true,30
+158,VerdeBus,Granada,2026-07-13T18:00:00,2026-07-13T22:49:00,38.82,1,14,true,false,30
+159,VerdeBus,Granada,2026-07-14T11:00:00,2026-07-14T15:55:00,39.6,1,22,true,false,30
+160,VerdeBus,Alicante,2026-07-12T17:00:00,2026-07-12T22:26:00,43.78,0,20,true,false,30
+161,VerdeBus,Alicante,2026-07-13T14:00:00,2026-07-13T19:27:00,43.84,0,12,true,true,30
+162,VerdeBus,Alicante,2026-07-14T11:00:00,2026-07-14T16:31:00,44.36,1,12,true,true,30
+163,VerdeBus,Seville,2026-07-12T17:00:00,2026-07-12T23:07:00,49.28,0,24,true,true,30
+164,VerdeBus,Seville,2026-07-13T07:00:00,2026-07-13T12:44:00,46.11,0,19,true,true,30
+165,VerdeBus,Seville,2026-07-14T10:00:00,2026-07-14T16:01:00,48.45,1,15,true,true,30
+166,VerdeBus,San Sebastian,2026-07-12T13:00:00,2026-07-12T18:49:00,46.84,0,25,false,true,30
+167,VerdeBus,San Sebastian,2026-07-13T14:00:00,2026-07-13T19:50:00,46.93,0,18,true,false,30
+168,VerdeBus,San Sebastian,2026-07-14T14:00:00,2026-07-14T19:59:00,48.14,1,15,true,false,30
+169,VerdeBus,Malaga,2026-07-12T16:00:00,2026-07-12T21:53:00,47.33,0,18,true,true,30
+170,VerdeBus,Malaga,2026-07-13T13:00:00,2026-07-13T19:13:00,50.01,0,17,true,true,30
+171,VerdeBus,Malaga,2026-07-14T11:00:00,2026-07-14T17:18:00,50.68,0,10,false,true,30
+172,VerdeBus,Barcelona,2026-07-12T11:00:00,2026-07-12T18:08:00,57.41,1,11,false,false,30
+173,VerdeBus,Barcelona,2026-07-13T11:00:00,2026-07-13T18:42:00,62.04,0,21,true,true,30
+174,VerdeBus,Barcelona,2026-07-14T11:00:00,2026-07-14T18:38:00,61.45,1,14,true,false,30
+175,VerdeBus,Cadiz,2026-07-12T17:00:00,2026-07-13T00:09:00,57.59,0,11,true,false,30
+176,VerdeBus,Cadiz,2026-07-13T08:00:00,2026-07-13T15:48:00,62.85,0,23,true,true,30
+177,VerdeBus,Cadiz,2026-07-14T15:00:00,2026-07-14T22:47:00,62.65,0,18,true,true,30
+178,VerdeBus,Santiago de Compostela,2026-07-12T14:00:00,2026-07-12T22:22:00,67.41,0,20,true,true,30
+179,VerdeBus,Santiago de Compostela,2026-07-13T08:00:00,2026-07-13T15:43:00,62.09,0,22,false,false,30
+180,VerdeBus,Santiago de Compostela,2026-07-14T12:00:00,2026-07-14T19:40:00,61.76,0,10,true,true,30
+181,NocheVia,Toledo,2026-07-12T22:00:00,2026-07-12T23:16:00,6.23,1,28,false,false,20
+182,NocheVia,Toledo,2026-07-13T22:00:00,2026-07-13T23:12:00,5.89,0,35,true,false,20
+183,NocheVia,Toledo,2026-07-14T23:00:00,2026-07-15T00:14:00,6.02,1,27,false,false,20
+184,NocheVia,Salamanca,2026-07-12T22:00:00,2026-07-13T01:35:00,17.53,0,40,true,false,20
+185,NocheVia,Salamanca,2026-07-13T21:00:00,2026-07-14T00:22:00,16.51,0,23,true,false,20
+186,NocheVia,Salamanca,2026-07-14T21:00:00,2026-07-15T00:24:00,16.66,0,37,true,false,20
+187,NocheVia,Zaragoza,2026-07-12T21:00:00,2026-07-13T01:33:00,22.26,1,23,false,false,20
+188,NocheVia,Zaragoza,2026-07-13T22:00:00,2026-07-14T02:10:00,20.44,0,26,true,false,20
+189,NocheVia,Zaragoza,2026-07-14T22:00:00,2026-07-15T02:12:00,20.58,1,31,false,false,20
+190,NocheVia,Cordoba,2026-07-12T22:00:00,2026-07-13T03:23:00,26.35,0,26,false,false,20
+191,NocheVia,Cordoba,2026-07-13T22:00:00,2026-07-14T03:24:00,26.44,0,40,false,false,20
+192,NocheVia,Cordoba,2026-07-14T21:00:00,2026-07-15T02:47:00,28.35,0,24,false,false,20
+193,NocheVia,Valencia,2026-07-12T23:00:00,2026-07-13T04:09:00,25.27,0,27,true,false,20
+194,NocheVia,Valencia,2026-07-13T23:00:00,2026-07-14T04:03:00,24.74,0,24,false,false,20
+195,NocheVia,Valencia,2026-07-14T21:00:00,2026-07-15T02:24:00,26.45,0,24,true,false,20
+196,NocheVia,Murcia,2026-07-12T21:00:00,2026-07-13T03:18:00,30.9,0,25,true,false,20
+197,NocheVia,Murcia,2026-07-13T22:00:00,2026-07-14T04:16:00,30.7,1,22,true,false,20
+198,NocheVia,Murcia,2026-07-14T23:00:00,2026-07-15T05:19:00,30.91,0,36,true,false,20
+199,NocheVia,Bilbao,2026-07-12T23:00:00,2026-07-13T05:06:00,29.92,1,36,true,false,20
+200,NocheVia,Bilbao,2026-07-13T21:00:00,2026-07-14T02:41:00,27.82,0,32,true,false,20
+201,NocheVia,Bilbao,2026-07-14T23:00:00,2026-07-15T05:11:00,30.29,0,22,true,false,20
+202,NocheVia,Granada,2026-07-12T21:00:00,2026-07-13T03:07:00,29.94,1,38,false,false,20
+203,NocheVia,Granada,2026-07-13T23:00:00,2026-07-14T05:16:00,30.72,0,36,false,true,20
+204,NocheVia,Granada,2026-07-14T23:00:00,2026-07-15T05:01:00,29.44,1,40,false,false,20
+205,NocheVia,Alicante,2026-07-12T21:00:00,2026-07-13T03:31:00,31.93,0,33,true,false,20
+206,NocheVia,Alicante,2026-07-13T22:00:00,2026-07-14T04:43:00,32.89,0,33,true,false,20
+207,NocheVia,Alicante,2026-07-14T21:00:00,2026-07-15T03:41:00,32.76,0,22,true,true,20
+208,NocheVia,Seville,2026-07-12T22:00:00,2026-07-13T05:12:00,35.27,1,31,false,false,20
+209,NocheVia,Seville,2026-07-13T23:00:00,2026-07-14T06:51:00,38.43,1,30,false,false,20
+210,NocheVia,Seville,2026-07-14T23:00:00,2026-07-15T06:50:00,38.37,0,21,false,false,20
+211,NocheVia,San Sebastian,2026-07-12T22:00:00,2026-07-13T04:54:00,33.82,1,26,true,false,20
+212,NocheVia,San Sebastian,2026-07-13T21:00:00,2026-07-14T04:05:00,34.69,1,31,true,false,20
+213,NocheVia,San Sebastian,2026-07-14T21:00:00,2026-07-15T04:24:00,36.3,1,39,false,false,20
+214,NocheVia,Malaga,2026-07-12T21:00:00,2026-07-13T04:35:00,37.15,1,28,true,false,20
+215,NocheVia,Malaga,2026-07-13T22:00:00,2026-07-14T05:49:00,38.3,0,20,true,false,20
+216,NocheVia,Malaga,2026-07-14T23:00:00,2026-07-15T06:26:00,36.39,0,40,false,true,20
+217,NocheVia,Barcelona,2026-07-12T23:00:00,2026-07-13T08:06:00,44.63,0,34,true,false,20
+218,NocheVia,Barcelona,2026-07-13T23:00:00,2026-07-14T08:13:00,45.13,1,39,true,true,20
+219,NocheVia,Barcelona,2026-07-14T21:00:00,2026-07-15T06:37:00,47.11,0,22,true,false,20
+220,NocheVia,Cadiz,2026-07-12T22:00:00,2026-07-13T07:29:00,46.43,0,28,true,false,20
+221,NocheVia,Cadiz,2026-07-13T22:00:00,2026-07-14T07:19:00,45.62,0,38,true,false,20
+222,NocheVia,Cadiz,2026-07-14T21:00:00,2026-07-15T06:07:00,44.65,1,21,true,false,20
+223,NocheVia,Santiago de Compostela,2026-07-12T21:00:00,2026-07-13T07:16:00,50.31,0,29,true,true,20
+224,NocheVia,Santiago de Compostela,2026-07-13T23:00:00,2026-07-14T08:56:00,48.66,0,32,false,false,20
+225,NocheVia,Santiago de Compostela,2026-07-14T23:00:00,2026-07-15T09:20:00,50.63,0,22,true,false,20
+226,NocheVia,Malaga,2026-07-15T23:00,2026-07-16T06:45,22.00,0,28,true,false,20
+227,SolRuta,Malaga,2026-07-13T08:00,2026-07-13T14:00,-10.00,0,20,true,false,20
+228,VerdeBus,Malaga,2026-07-13T12:00,2026-07-13T09:00,41.00,0,10,true,true,30
+229,FastBus,Malaga,2026-07-12T09:00,2026-07-12T15:00,35.00,0,15,true,false,20
+230,CostaLink,Malaga,2026-07-13T10:00,2026-07-13T17:00,38.00,1,12,true,false,23
+231,SolRuta,Paris,2026-07-12T09:00,2026-07-12T15:00,30.00,0,10,true,false,20

@@ -17,7 +17,7 @@ from busbidder.exceptions import DataValidationError
 from busbidder.models import Company, FareConditions, Offer, TravellerProfile
 
 COMPANY_DATA_FILE = Path("data/companies.json")
-OFFER_DATA_FILE = Path("data/offers.csv")
+OFFER_DATA_FILE = Path("data/offers_full.csv")
 PROFILE_DATA_FILE = Path("config/profiles.json")
 DESTINATION_DATA_FILE = Path("data/destinations.json")
 
