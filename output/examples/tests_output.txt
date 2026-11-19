@@ -1,0 +1,44 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.12.1, pytest-8.1.1, pluggy-1.4.0 -- C:\Users\justs\AppData\Local\Programs\Python\Python312\python.exe
+cachedir: .pytest_cache
+metadata: {'Python': '3.12.1', 'Platform': 'Windows-11-10.0.26300-SP0', 'Packages': {'pytest': '8.1.1', 'pluggy': '1.4.0'}, 'Plugins': {'anyio': '4.3.0', 'hydra-core': '1.3.2', 'cov': '5.0.0', 'html': '4.1.1', 'metadata': '3.1.1'}, 'JAVA_HOME': 'C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot\\'}
+rootdir: C:\Users\justs\OneDrive - NTNU\Desktop\semester3\ACIT4420 - Problem-Solving\final-project\BusBidder-Spain
+configfile: pyproject.toml
+plugins: anyio-4.3.0, hydra-core-1.3.2, cov-5.0.0, html-4.1.1, metadata-3.1.1
+collecting ... collected 33 items
+
+tests/test_booking.py::test_booking_reduces_seats_left PASSED            [  3%]
+tests/test_booking.py::test_booking_exactly_remaining_seats PASSED       [  6%]
+tests/test_booking.py::test_overbooking_raises_booking_error PASSED      [  9%]
+tests/test_booking.py::test_zero_seats_raises_booking_error PASSED       [ 12%]
+tests/test_booking.py::test_reference_matches_pattern PASSED             [ 15%]
+tests/test_booking.py::test_invalid_reference_rejected PASSED            [ 18%]
+tests/test_booking.py::test_save_and_load_round_trip PASSED              [ 21%]
+tests/test_booking.py::test_missing_bookings_file_returns_empty PASSED   [ 24%]
+tests/test_booking.py::test_corrupt_bookings_file_raises PASSED          [ 27%]
+tests/test_filtering.py::test_valid_offer_passes PASSED                  [ 30%]
+tests/test_filtering.py::test_price_exactly_at_budget_passes PASSED      [ 33%]
+tests/test_filtering.py::test_price_over_budget_fails PASSED             [ 36%]
+tests/test_filtering.py::test_departure_on_first_and_last_day_passes PASSED [ 39%]
+tests/test_filtering.py::test_departure_outside_window_rejected PASSED   [ 42%]
+tests/test_filtering.py::test_too_many_transfers_rejected PASSED         [ 45%]
+tests/test_filtering.py::test_not_changeable_rejected_when_required PASSED [ 48%]
+tests/test_filtering.py::test_last_free_seat_still_passes PASSED         [ 51%]
+tests/test_filtering.py::test_fully_booked_offer_rejected PASSED         [ 54%]
+tests/test_filtering.py::test_wrong_destination_rejected PASSED          [ 57%]
+tests/test_loading.py::test_valid_offers_load PASSED                     [ 60%]
+tests/test_loading.py::test_negative_price_rejected PASSED               [ 63%]
+tests/test_loading.py::test_unknown_destination_rejected PASSED          [ 66%]
+tests/test_loading.py::test_missing_field_rejected PASSED                [ 69%]
+tests/test_loading.py::test_missing_file_raises PASSED                   [ 72%]
+tests/test_loading.py::test_invalid_json_raises PASSED                   [ 75%]
+tests/test_scoring.py::test_cheapest_offer_gets_price_score_100 PASSED   [ 78%]
+tests/test_scoring.py::test_equal_prices_all_score_100 PASSED            [ 81%]
+tests/test_scoring.py::test_departure_penalty_per_hour PASSED            [ 84%]
+tests/test_scoring.py::test_departure_score_never_below_zero PASSED      [ 87%]
+tests/test_scoring.py::test_flexibility_categories PASSED                [ 90%]
+tests/test_scoring.py::test_weights_missing_criteria_rejected PASSED     [ 93%]
+tests/test_scoring.py::test_shorter_journey_ranks_higher PASSED          [ 96%]
+tests/test_scoring.py::test_tie_broken_by_lower_offer_id PASSED          [100%]
+
+============================= 33 passed in 0.18s ==============================
