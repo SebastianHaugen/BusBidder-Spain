@@ -1,0 +1,10 @@
+2026-11-19 10:28:00 INFO busbidder.loading: Loaded 15 destinations from data\destinations.json.
+2026-11-19 10:28:00 INFO busbidder.loading: Loaded 4 traveller profiles from config\profiles.json.
+2026-11-19 10:28:00 INFO busbidder.loading: Loaded 5 companies from data\companies.json.
+2026-11-19 10:28:00 ERROR busbidder.loading: Rejected offer record (price -10.0 must be positive): {'offer_id': '227', 'company': 'SolRuta', 'destination': 'Malaga', 'departure': '2026-07-13T08:00', 'arrival': '2026-07-13T14:00', 'price': '-10.00', 'transfers': '0', 'seats_available': '20', 'changeable': 'true', 'refundable': 'false', 'baggage_limit': '20'}
+2026-11-19 10:28:00 ERROR busbidder.loading: Rejected offer record (arrival 2026-07-13 09:00:00 must be after departure 2026-07-13 12:00:00): {'offer_id': '228', 'company': 'VerdeBus', 'destination': 'Malaga', 'departure': '2026-07-13T12:00', 'arrival': '2026-07-13T09:00', 'price': '41.00', 'transfers': '0', 'seats_available': '10', 'changeable': 'true', 'refundable': 'true', 'baggage_limit': '30'}
+2026-11-19 10:28:00 ERROR busbidder.loading: Rejected offer record (company 'FastBus' not found): {'offer_id': '229', 'company': 'FastBus', 'destination': 'Malaga', 'departure': '2026-07-12T09:00', 'arrival': '2026-07-12T15:00', 'price': '35.00', 'transfers': '0', 'seats_available': '15', 'changeable': 'true', 'refundable': 'false', 'baggage_limit': '20'}
+2026-11-19 10:28:00 ERROR busbidder.loading: Rejected offer record (unknown destination 'Paris'): {'offer_id': '231', 'company': 'SolRuta', 'destination': 'Paris', 'departure': '2026-07-12T09:00', 'arrival': '2026-07-12T15:00', 'price': '30.00', 'transfers': '0', 'seats_available': '10', 'changeable': 'true', 'refundable': 'false', 'baggage_limit': '20'}
+2026-11-19 10:28:00 INFO busbidder.loading: Loaded 227 offers from data\offers_full.csv.
+2026-11-19 10:28:00 INFO busbidder.booking: Booked 4 seat(s) on offer 125, reference 125-4-GZ5TS.
+2026-11-19 10:28:00 INFO busbidder.booking: Saving 1 booking(s) to output\bookings.json.
