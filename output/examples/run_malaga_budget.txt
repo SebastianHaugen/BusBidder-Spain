@@ -1,0 +1,59 @@
+﻿Welcome to BusBidder Spain!
+Available destinations:
+1. Alicante
+2. Barcelona
+3. Bilbao
+4. Cadiz
+5. Cordoba
+6. Granada
+7. Malaga
+8. Murcia
+9. Salamanca
+10. San Sebastian
+11. Santiago de Compostela
+12. Seville
+13. Toledo
+14. Valencia
+15. Zaragoza
+Choose a destination (1-15): Enter the earliest departure date (YYYY-MM-DD): Enter the latest departure date (YYYY-MM-DD): Enter the number of seats needed (1-10): Enter the maximum price per seat you are willing to pay: Do you require a changeable ticket? (y/n): Enter the number of transfers you are willing to make (0-5): Available travel profiles:
+1. Budget traveller              prefers 09:00 | price 60%, duration 15%, time 10%, flexibility 15%
+2. Business traveller            prefers 07:00 | price 10%, duration 45%, time 30%, flexibility 15%
+3. Flexibility-focused tourist   prefers 11:00 | price 20%, duration 15%, time 15%, flexibility 50%
+4. Balanced traveller            prefers 09:00 | price 40%, duration 25%, time 15%, flexibility 20%
+Choose a travel profile (1-4): 
+Searching: Malaga, 2026-07-12 to 2026-07-14, 1 seat(s), max €50.00, changeable required, max 1 transfer(s), Budget traveller
+
+Rejected offers to Malaga
+Company         Departs            Price   Dur.  Reasons
+----------------------------------------------------------------------------------------
+SolRuta         2026-07-13 13:00 € 32.78  6h15  Offer is not changeable, but requested changeable
+SolRuta         2026-07-14 08:00 € 31.62  6h01  Offer is not changeable, but requested changeable
+Camino Express  2026-07-13 07:00 € 46.50  4h55  Offer is not changeable, but requested changeable
+CostaLink       2026-07-14 16:00 € 38.29  6h46  Offer is not changeable, but requested changeable
+VerdeBus        2026-07-13 13:00 € 50.01  6h13  Price 50.01 exceeds requested max 50.0
+VerdeBus        2026-07-14 11:00 € 50.68  6h18  Price 50.68 exceeds requested max 50.0; Offer is not changeable, but requested changeable
+NocheVia        2026-07-14 23:00 € 36.39  7h26  Offer is not changeable, but requested changeable
+NocheVia        2026-07-15 23:00 € 22.00  7h45  Departure 2026-07-15 is after latest date 2026-07-14
+(210 offers to other destinations not shown.)
+
+Ranking
+                                          Offer           Scores (0-100)            
+ #  Company         Departs            Price   Dur.  Price  Dur.  Time  Flex  Total
+----------------------------------------------------------------------------------------
+ 1  SolRuta         2026-07-12 14:00 € 34.09  6h30    100    48    50    50   79.7
+ 2  CostaLink       2026-07-13 18:00 € 35.64  6h18     89    55    10   100   78.0
+ 3  CostaLink       2026-07-12 15:00 € 35.87  6h21     88    54    40    50   72.3
+ 4  CostaLink       2026-07-13 10:00 € 38.00  7h00     73    30    90    50   65.0
+ 5  NocheVia        2026-07-12 21:00 € 37.15  7h35     79     9     0    50   56.3
+ 6  NocheVia        2026-07-13 22:00 € 38.30  7h49     71     0     0    50   50.3
+ 7  Camino Express  2026-07-14 06:00 € 47.98  5h05      5   100    70   100   40.2
+ 8  Camino Express  2026-07-12 11:00 € 48.77  5h10      0    97    80   100   37.5
+ 9  VerdeBus        2026-07-12 16:00 € 47.33  5h53     10    71    30   100   34.5
+----------------------------------------------------------------------------------------
+Scores: 0-100 per criterion, higher is better. Total = weighted sum using your profile's weights.
+
+SolRuta (offer 34) ranks highest for Budget traveller with a total score of 79.7.
+The deciding factor: it is very affordable at €34.09.
+Weakest point: it has a reasonable journey of 6h 30m.
+This is the best match under the selected weights, not an objectively best offer.
+Choose an offer to book (1-9), or 0 to exit: 

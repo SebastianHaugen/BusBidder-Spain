@@ -15,6 +15,7 @@ from busbidder.exceptions import BookingError, BusBidderError
 from busbidder.logging_setup import setup_logging
 
 def ask_int(prompt, min_value, max_value):
+    # Ask until the user enters a valid integer within the specified range.
     while True:
         try:
             value = int(input(prompt))
@@ -42,10 +43,8 @@ def ask_date(prompt: str) -> date:
         except ValueError:
             print("Invalid date. Please use the format YYYY-MM-DD, e.g. 2026-07-12.")
             
-def ask_seats(prompt, min_value, max_value):
-    return ask_int(prompt, min_value, max_value)
-
 def ask_price(prompt, min_value, max_value):
+    # Ask until the user enters a valid float within the specified range.
     while True:
         try:
             value = float(input(prompt))
@@ -55,11 +54,9 @@ def ask_price(prompt, min_value, max_value):
                 print(f"Please enter a price between {min_value} and {max_value}.")
         except ValueError:
             print("Invalid input. Please enter a valid number.")
-            
-def ask_transfers(prompt, min_value, max_value):
-    return ask_int(prompt, min_value, max_value)
 
 def ask_yes_no(prompt):
+    # Ask until the user enters 'y' or 'n', returning True for 'y' and False for 'n'.
     while True:
         answer = input(prompt + " (y/n): ").strip().lower()
         if answer == 'y':
@@ -71,12 +68,14 @@ def ask_yes_no(prompt):
 
 def ask_travel_profile(profiles):
     print("Available travel profiles:")
+    # Print each profile with its preferences and weights
     for number, profile in enumerate(profiles.values(), start=1):
         w = profile.weights
         print(f"{number}. {profile.name:<29} prefers {profile.preferred_departure:%H:%M} | "
               f"price {w['price']:.0%}, duration {w['duration']:.0%}, "
               f"time {w['departure_time']:.0%}, flexibility {w['flexibility']:.0%}")
 
+    # Ask the user to choose a profile by number
     choice = ask_int(f"Choose a travel profile (1-{len(profiles)}): ", 1, len(profiles))
     return list(profiles.values())[choice - 1]
 
@@ -88,6 +87,7 @@ def show_ranking(ranked):
           f"{'Price':>5} {'Dur.':>5} {'Time':>5} {'Flex':>5}  {'Total':>5}")
     print("-" * 88)
 
+    # Print each ranked offer with its scores and total score
     for rank, (offer, total, scores) in enumerate(ranked, start=1):
         h, m = divmod(offer.duration_minutes, 60)
         print(
@@ -98,26 +98,27 @@ def show_ranking(ranked):
             f"{scores['departure_time']:>5.0f} {scores['flexibility']:>5.0f}  "
             f"{total:>5.1f}"
         )
-
+    
+    # Explain the scoring system to the user
     print("-" * 88)
     print("Scores: 0-100 per criterion, higher is better. "
           "Total = weighted sum using your profile's weights.")
 
-def show_rejected(rejected):
-    """Print the rejected offers as an aligned table with rejection reasons."""
-    print("\nRejected Offers")
-    print(f"{'Company':<15} {'Departs':<16} {'Price':>7} {'Dur.':>6}  "
-          f"{'Reasons'}")
-    print("-" * 88)
+def show_rejected(rejected, destination):
+    """Print rejected offers for the chosen destination, and count the rest."""
+    relevant = [(o, r) for o, r in rejected if o.destination == destination]
+    other = len(rejected) - len(relevant)
 
-    for offer, reasons in rejected:
+    print(f"\nRejected offers to {destination}")
+    print(f"{'Company':<15} {'Departs':<16} {'Price':>7} {'Dur.':>6}  Reasons")
+    print("-" * 88)
+    for offer, reasons in relevant:
         h, m = divmod(offer.duration_minutes, 60)
-        print(
-            f"{offer.company.name:<15} "
-            f"{offer.departure:%Y-%m-%d %H:%M} "
-            f"€{offer.price:>6.2f} {h:>2}h{m:02d}  "
-            f"{'; '.join(reasons)}"
-        )
+        print(f"{offer.company.name:<15} {offer.departure:%Y-%m-%d %H:%M} "
+              f"€{offer.price:>6.2f} {h:>2}h{m:02d}  {'; '.join(reasons)}")
+
+    if other:
+        print(f"({other} offers to other destinations not shown.)")
 
 def show_confirmation(booking, offer):
     """Print a clear confirmation for a completed booking."""
@@ -159,7 +160,7 @@ def graceful_exit(func):
     show a full traceback.
     """
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs): 
         try:
             return func(*args, **kwargs)
         except (KeyboardInterrupt, EOFError):
@@ -176,9 +177,9 @@ def main() -> None:
     setup_logging()
     destinations = sorted(load_destinations())
     
+    # Welcome the user and ask for their travel preferences
     print("Welcome to BusBidder Spain!")
     destination = choose_destination(destinations)
-    print(f"You have chosen: {destination}")
     earliest_date = ask_date("Enter the earliest departure date (YYYY-MM-DD): ")
     
     # Ensure that the latest date is not earlier than the earliest date
@@ -188,17 +189,18 @@ def main() -> None:
             break
         print("Latest departure date must be on or after the earliest departure date.")
     
-    print(f"Earliest departure date: {earliest_date} ")
-    print(f"Latest departure date: {latest_date} ")
-    seats = ask_seats("Enter the number of seats needed (1-10): ", 1, 10)
-    print(f"Number of seats needed: {seats} ")
-    price = ask_price("Enter the maximum price you are willing to pay: ", 0.01, 1000.00)
-    print(f"Maximum price: {price} ")
+    # Ask the user for the number of seats, maximum price, changeable requirement, and number of transfers
+    seats = ask_int("Enter the number of seats needed (1-10): ", 1, 10)
+    price = ask_price("Enter the maximum price per seat you are willing to pay: ", 0.01, 1000.00)
     changeable = ask_yes_no("Do you require a changeable ticket?")
-    print(f"Changeable ticket: {changeable} ")
-    transfers = ask_transfers("Enter the number of transfers you are willing to make (0-5): ", 0, 5)
-    print(f"Number of transfers: {transfers} ")
+    transfers = ask_int("Enter the number of transfers you are willing to make (0-5): ", 0, 5)
     travel_profile = ask_travel_profile(load_profiles())    
+    
+    # Print a summary of the user's choices
+    print(f"\nSearching: {destination}, {earliest_date} to {latest_date}, "
+          f"{seats} seat(s), max €{price:.2f}, "
+          f"{'changeable required' if changeable else 'any fare'}, "
+          f"max {transfers} transfer(s), {travel_profile.name}")
     
     # Create a TravelRequest object based on the user's input       
     travel_request = TravelRequest(
@@ -215,8 +217,9 @@ def main() -> None:
     offers = load_offers(load_companies(), set(destinations))
     bookings = load_bookings()
     accepted, rejected = filter_offers(offers, travel_request, bookings)
-    show_rejected(rejected)
+    show_rejected(rejected, destination) 
 
+    # If no offers were accepted, inform the user and exit
     if not accepted:
         print("No offers match your requirements.")
         return
